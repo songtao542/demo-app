@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p 这是来自外部目录的一个页面/>
+<p th:text="'你的编号是：' + ${user.id}" />
+<p th:text="'你的名字是：' + ${user.name}" />
+<p th:text="'你的昵称是：' + ${user.nickname}" />
+<p th:text="'你的性别是：' + ((${user.sex} == 'M')?'男性':'女性')" />
+<p th:text="'你的体重是：' + ${user.weight} + 'kg'" />
+<p th:text="'账户创建时间：' + ${user.gmtCreate}" />
+<p th:text="'最近更新时间：' + ${user.gmtModify}" />
+<p th:text="'账户是否有效：' + ((${user.isDeleted == 'y'})?'已无效':'依然有效')" />
+</body>
+</html>
