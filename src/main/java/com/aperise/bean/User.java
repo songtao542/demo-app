@@ -6,9 +6,13 @@ public class User {
     String nickname;
     String sex;
     float weight;
-    long gmt_create;
-    long gmt_modify;
-    String is_deleted;
+    long gmtCreate;
+    long gmtModify;
+    String isDeleted;
+
+    public User(int id) {
+        this.id = id;
+    }
 
     public User(int id, String name, String nickname, String sex, float weight, long gmt_create, long gmt_modify, String is_deleted) {
         this.id = id;
@@ -16,9 +20,9 @@ public class User {
         this.nickname = nickname;
         this.sex = sex;
         this.weight = weight;
-        this.gmt_create = gmt_create;
-        this.gmt_modify = gmt_modify;
-        this.is_deleted = is_deleted;
+        this.gmtCreate = gmt_create;
+        this.gmtModify = gmt_modify;
+        this.isDeleted = is_deleted;
     }
 
 //    @Override
@@ -76,27 +80,27 @@ public class User {
         this.weight = weight;
     }
 
-    public long getGmt_create() {
-        return gmt_create;
+    public long getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setGmt_create(long gmt_create) {
-        this.gmt_create = gmt_create;
+    public void setGmtCreate(long gmt_create) {
+        this.gmtCreate = gmt_create;
     }
 
-    public long getGmt_modify() {
-        return gmt_modify;
+    public long getGmtModify() {
+        return gmtModify;
     }
 
-    public void setGmt_modify(long gmt_modify) {
-        this.gmt_modify = gmt_modify;
+    public void setGmtModify(long gmt_modify) {
+        this.gmtModify = gmt_modify;
     }
 
-    public String getIs_deleted() {
-        return is_deleted;
+    public String getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setIs_deleted(String is_deleted) {
-        this.is_deleted = is_deleted;
+    public void setIsDeleted(String is_deleted) {
+        this.isDeleted = is_deleted;
     }
 }

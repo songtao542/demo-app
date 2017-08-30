@@ -4,27 +4,46 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-    <properties resource="config.properties">
-        <!--<property name="username" value="root"/>-->
-        <!--<property name="password" value="root123456"/>-->
-    </properties>
+    <settings>
+        <setting name="vfsImpl" value="org.mybatis.spring.boot.autoconfigure.SpringBootVFS"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!--<properties resource="config.properties">-->
+        <!--&lt;!&ndash;<property name="username" value="root"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="password" value="root123456"/>&ndash;&gt;-->
+    <!--</properties>-->
 
     <typeAliases >
         <typeAlias alias="User" type="com.aperise.bean.User" />
+
+        <!--<typeAlias alias="Integer" type="java.lang.Integer" />-->
+        <!--<typeAlias alias="Long" type="java.lang.Long" />-->
+        <!--<typeAlias alias="HashMap" type="java.util.HashMap" />-->
+        <!--<typeAlias alias="LinkedHashMap" type="java.util.LinkedHashMap" />-->
+        <!--<typeAlias alias="ArrayList" type="java.util.ArrayList" />-->
+        <!--<typeAlias alias="LinkedList" type="java.util.LinkedList" />-->
     </typeAliases>
 
-    <environments default="development">
-        <environment id="development">
-            <transactionManager type="JDBC"/>
-            <dataSource type="POOLED">
-                <property name="driver" value="${driver}"/>
-                <property name="url" value="${url}"/>
-                <property name="username" value="${username}"/>
-                <property name="password" value="${password}"/>
-            </dataSource>
-        </environment>
-    </environments>
-    <mappers>
-        <mapper resource="mapper/User.xml"/>
-    </mappers>
+    <!--<environments default="development">-->
+        <!--<environment id="development">-->
+            <!--<transactionManager type="JDBC"/>-->
+            <!--<dataSource type="POOLED">-->
+                <!--&lt;!&ndash;<property name="driver" value="${driver}"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<property name="url" value="${url}"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<property name="username" value="${username}"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<property name="password" value="${password}"/>&ndash;&gt;-->
+
+                <!--<property name="driver" value="${spring.datasource.driver-class-name}"/>-->
+                <!--<property name="url" value="${spring.datasource.url}"/>-->
+                <!--<property name="username" value="${spring.datasource.username}"/>-->
+                <!--<property name="password" value="${spring.datasource.password}"/>-->
+            <!--</dataSource>-->
+        <!--</environment>-->
+    <!--</environments>-->
+    <!--<mappers>-->
+        <!--<mapper resource="mapper/User.xml"/>-->
+    <!--</mappers>-->
+
+
 </configuration>
