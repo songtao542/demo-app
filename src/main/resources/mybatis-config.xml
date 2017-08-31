@@ -16,6 +16,7 @@
 
     <typeAliases >
         <typeAlias alias="User" type="com.aperise.bean.User" />
+        <typeAlias alias="Game" type="com.aperise.bean.Game" />
 
         <!--<typeAlias alias="Integer" type="java.lang.Integer" />-->
         <!--<typeAlias alias="Long" type="java.lang.Long" />-->

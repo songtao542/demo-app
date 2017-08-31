@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Controller
+@RequestMapping("view")
 public class UserViewController {
 
     private static final String template = "Hello, %s!";
@@ -22,13 +23,13 @@ public class UserViewController {
     @Autowired
     UserDao userDao;
 
-    @RequestMapping("/userview")
-    public String greeting1(@RequestParam(value="id", required=false, defaultValue="1") int id, Model model) {
+    @RequestMapping("/user")
+    public String user(@RequestParam(value="id", required=false, defaultValue="1") int id, Model model) {
         model.addAttribute("user", userDao.getUser(id));
         return "user";
     }
 
-    @RequestMapping("/user/greeting")
+    @RequestMapping("/greeting")
     public String greeting1(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
         return "greeting";

@@ -1,5 +1,10 @@
 package com.aperise.bean;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.util.List;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
     int id;
     String name;
@@ -10,19 +15,32 @@ public class User {
     long gmtModify;
     String isDeleted;
 
+    List<Game> games;
+
+    public List<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(List<Game> games) {
+        this.games = games;
+    }
+
+    public User() {
+    }
+
     public User(int id) {
         this.id = id;
     }
 
-    public User(int id, String name, String nickname, String sex, float weight, long gmt_create, long gmt_modify, String is_deleted) {
+    public User(int id, String name, String nickname, String sex, float weight, long gmtCreate, long gmtModify, String isDeleted) {
         this.id = id;
         this.name = name;
         this.nickname = nickname;
         this.sex = sex;
         this.weight = weight;
-        this.gmtCreate = gmt_create;
-        this.gmtModify = gmt_modify;
-        this.isDeleted = is_deleted;
+        this.gmtCreate = gmtCreate;
+        this.gmtModify = gmtModify;
+        this.isDeleted = isDeleted;
     }
 
 //    @Override
@@ -33,8 +51,8 @@ public class User {
 //                .append("nickname" + nickname).append("\n")
 //                .append("sex=" + sex).append("\n")
 //                .append("weight" + weight).append("\n")
-//                .append("gmt_create=" + gmt_create).append("\n")
-//                .append("gmt_modify=" + gmt_modify).append("\n")
+//                .append("gmtCreate=" + gmtCreate).append("\n")
+//                .append("gmtModify=" + gmtModify).append("\n")
 //                .append("is_deleted=" + is_deleted);
 //        return b.toString();
 //    }
@@ -84,16 +102,16 @@ public class User {
         return gmtCreate;
     }
 
-    public void setGmtCreate(long gmt_create) {
-        this.gmtCreate = gmt_create;
+    public void setGmtCreate(long gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 
     public long getGmtModify() {
         return gmtModify;
     }
 
-    public void setGmtModify(long gmt_modify) {
-        this.gmtModify = gmt_modify;
+    public void setGmtModify(long gmtModify) {
+        this.gmtModify = gmtModify;
     }
 
     public String getIsDeleted() {
