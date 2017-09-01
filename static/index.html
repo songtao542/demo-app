@@ -1,10 +1,38 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <title>Getting Started: Serving Web Content</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript">
+        var xhr;
+
+        function sendPost() {
+            console.log("log sendPost")
+            console.debug("sendPost")
+            xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost:8081/user", true);
+            xhr.onreadystatechange = callback;
+            xhr.send()
+
+        }
+
+        function callback() {
+            console.log("log " + "callback readyState:" + xhr.readyState + "  status:" + xhr.status)
+            console.debug("callback readyState:" + xhr.readyState + "  status:" + xhr.status)
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var b = xhr.responseText;
+                document.getElementById('response').innerText = b;
+            }
+        }
+    </script>
+
+
 </head>
 <body>
+<p>Get your greeting <a href="/greeting">here</a></p>
+
+<button onsubmit="sendPost()" onclick="sendPost()">Click to get a User</button>
+<p id="response">has no response</p>
 <p>这是一个来自外部的测试页面</a></p>
 <p>Get your greeting <a href="/greeting">here</a></p>
 </body>

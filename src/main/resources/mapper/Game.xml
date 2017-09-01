@@ -5,7 +5,7 @@
 <mapper namespace="com.aperise.mapper.GameMapper">
 
     <sql id="gameColumns">
-        game.id as game_id,game.name as game_name,game.type as game_type
+        game.id as id,game.name as name,game.type as type
     </sql>
 
     <select id="selectGame" resultType="Game">

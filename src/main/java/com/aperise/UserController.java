@@ -17,13 +17,13 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.BasicErrorController;
+import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.cors.CorsConfiguration;
 
 @RestController
 public class UserController {
@@ -107,6 +107,7 @@ public class UserController {
         return result;
     }
 
+    @CrossOrigin
     @RequestMapping("/user")
     public User user(@RequestParam(value = "id", defaultValue = "1") int id, @RequestParam(value = "offset", defaultValue = "0") int offset) {
         System.out.println("user:offset=" + offset);
@@ -122,9 +123,11 @@ public class UserController {
     }
 
     @RequestMapping("/user/list")
-    public List<User> userList(@RequestParam(value = "offset", defaultValue = "0") int offset) {
+    public List<User> userList(@RequestParam(value = "offset", defaultValue = "0") int offset) throws Exception {
         System.out.println("offset=" + offset);
         List<User> users = userDao.getAllUser(offset, 20);
+//        if (users != null)
+//            throw new Exception("this is a exception!");
         return users;
     }
 
@@ -136,4 +139,5 @@ public class UserController {
                 + "<br/>inner.name=" + env.getProperty("inner.name")
                 + "<br/>spring.datasource.driver-class-name=" + env.getProperty("spring.datasource.driver-class-name");
     }
+
 }

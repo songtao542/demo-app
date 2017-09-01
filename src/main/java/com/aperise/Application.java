@@ -13,14 +13,26 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.*;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.util.StringUtils;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -31,6 +43,8 @@ import java.util.concurrent.TimeUnit;
 @ImportResource(locations = {"application-context.xml"})
 @MapperScan("com.aperise.mapper")
 @SpringBootApplication
+@EnableGlobalMethodSecurity
+@EnableWebSecurity
 public class Application implements EmbeddedServletContainerCustomizer {
 
 
@@ -53,8 +67,41 @@ public class Application implements EmbeddedServletContainerCustomizer {
         return factory;
     }
 
+//    @Bean
+//    public WebMvcConfigurer getWebMvcConfigurer() {
+//        return new WebConfig();
+//    }
 
+    @Bean
+    public FilterRegistrationBean corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:8082");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/user/*", config);
+        source.registerCorsConfiguration("/game/*", config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(0);
+        return bean;
+    }
 
+    @Bean
+    @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+    public WebSecurityConfigurerAdapter getWebSecurityConfigurerAdapter() {
+        WebSecurityConfigurerAdapter adapter = new WebSecurityConfigurerAdapter() {
+        };
+        return adapter;
+    }
+
+    @Bean
+    public AuthorizationServerConfigurer getAuthorizationServerConfigurer() {
+        AuthorizationServerConfigurer configurer = new AuthorizationServerConfigurerAdapter() {
+
+        };
+        return configurer;
+    }
 
 //    @Bean
 //    public SqlSessionFactory getSqlSessionFactory() {
