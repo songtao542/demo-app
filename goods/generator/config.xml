@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <classPathEntry location="/Users/wangsongtao/git/goods/libs/mysql-connector-java-5.1.43-bin.jar"/>
+
+    <context id="elec_shop" targetRuntime="MyBatis3">
+
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/elec_shop"
+                        userId="root"
+                        password="root123456">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.aperise.bean" targetProject="../src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mapper" targetProject="../src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.aperise.mapper"
+                             targetProject="../src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+
+        <table schema="elec_shop" tableName="category" domainObjectName="Category">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
+            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
+        </table>
+        <table schema="elec_shop" tableName="merchant" domainObjectName="Merchant">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
+            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
+        </table>
+        <table schema="elec_shop" tableName="product" domainObjectName="Product">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
+            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
+        </table>
+        <table schema="elec_shop" tableName="product_property" domainObjectName="ProductProperty">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
+            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
+        </table>
+        <table schema="elec_shop" tableName="property" domainObjectName="Property">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
+            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
+        </table>
+        <table schema="elec_shop" tableName="property_value" domainObjectName="PropertyValue">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
+            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
+        </table>
+        <table schema="elec_shop" tableName="sku" domainObjectName="Sku">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
+            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
+        </table>
+        <table schema="elec_shop" tableName="sku_property" domainObjectName="SkuProperty">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
+            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
+        </table>
+        <table schema="elec_shop" tableName="user" domainObjectName="User">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
+            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
+        </table>
+
+    </context>
+</generatorConfiguration>
