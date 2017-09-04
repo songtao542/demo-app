@@ -34,6 +34,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.servlet.Servlet;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +48,7 @@ import java.util.concurrent.TimeUnit;
 @EnableWebSecurity
 public class Application implements EmbeddedServletContainerCustomizer {
 
+    Servlet s;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
