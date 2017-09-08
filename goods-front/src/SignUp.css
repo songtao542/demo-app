@@ -1,0 +1,13 @@
+.panel-body {
+    padding: 30px;
+}
+
+.btn {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+.form-control {
+    height: 40px;
+}
