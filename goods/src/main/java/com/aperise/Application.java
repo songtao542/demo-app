@@ -1,50 +1,27 @@
 package com.aperise;
 
-import jdk.nashorn.internal.ir.annotations.Reference;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
-import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.*;
-import org.springframework.core.annotation.Order;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.util.StringUtils;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
-
+//@EnableGlobalMethodSecurity
+//@EnableWebSecurity
 @ImportResource(locations = {"application-context.xml"})
-@MapperScan("com.aperise.mapper")
+@MapperScan({"com.aperise.mapper"})
 @SpringBootApplication
-@EnableGlobalMethodSecurity
-@EnableWebSecurity
 public class Application implements EmbeddedServletContainerCustomizer {
 
 
@@ -87,21 +64,26 @@ public class Application implements EmbeddedServletContainerCustomizer {
         return bean;
     }
 
-    @Bean
-    @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-    public WebSecurityConfigurerAdapter getWebSecurityConfigurerAdapter() {
-        WebSecurityConfigurerAdapter adapter = new WebSecurityConfigurerAdapter() {
-        };
-        return adapter;
-    }
+//    @Bean
+//    @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+//    public WebSecurityConfigurerAdapter getWebSecurityConfigurerAdapter() {
+//        WebSecurityConfigurerAdapter adapter = new WebSecurityConfigurerAdapter() {
+//            @Override
+//            protected void configure(HttpSecurity http) throws Exception {
+////                super.configure(http);
+//                http.authorizeRequests().antMatchers("/resources/**", "/", "/about").permitAll();
+//            }
+//        };
+//        return adapter;
+//    }
 
-    @Bean
-    public AuthorizationServerConfigurer getAuthorizationServerConfigurer() {
-        AuthorizationServerConfigurer configurer = new AuthorizationServerConfigurerAdapter() {
-
-        };
-        return configurer;
-    }
+//    @Bean
+//    public AuthorizationServerConfigurer getAuthorizationServerConfigurer() {
+//        AuthorizationServerConfigurer configurer = new AuthorizationServerConfigurerAdapter() {
+//
+//        };
+//        return configurer;
+//    }
 
 //    @Bean
 //    public SqlSessionFactory getSqlSessionFactory() {

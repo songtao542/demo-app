@@ -4,11 +4,34 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <classPathEntry location="/Users/wangsongtao/git/goods/libs/mysql-connector-java-5.1.43-bin.jar"/>
+
+    <classPathEntry location="../libs/mysql-connector-java-5.1.43-bin.jar"/>
 
     <context id="elec_shop" targetRuntime="MyBatis3">
 
         <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.CachePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin">
+            <property name="addGWTInterface" value="false"/>
+            <property name="suppressJavaInterface" value="false"/>
+        </plugin>
+        <!--<plugin type="org.mybatis.generator.plugins.MapperConfigPlugin">-->
+            <!--<property name="targetPackage" value="mapper"/>-->
+            <!--<property name="targetProject" value="../src/main/resources"/>-->
+        <!--</plugin>-->
+        <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+            <property name="searchString" value="Example$"/>
+            <property name="replaceString" value="Criteria"/>
+        </plugin>
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/elec_shop"
@@ -25,61 +48,42 @@
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="mapper" targetProject="../src/main/resources">
-            <property name="enableSubPackages" value="true"/>
+        <sqlMapGenerator targetPackage="mapper.gen" targetProject="../src/main/resources">
+            <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.aperise.mapper"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.aperise.mapper.gen"
                              targetProject="../src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-
         <table schema="elec_shop" tableName="category" domainObjectName="Category">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
-            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
         </table>
         <table schema="elec_shop" tableName="merchant" domainObjectName="Merchant">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
-            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
         </table>
         <table schema="elec_shop" tableName="product" domainObjectName="Product">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
-            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
         </table>
         <table schema="elec_shop" tableName="product_property" domainObjectName="ProductProperty">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
-            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
         </table>
         <table schema="elec_shop" tableName="property" domainObjectName="Property">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
-            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
         </table>
         <table schema="elec_shop" tableName="property_value" domainObjectName="PropertyValue">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
-            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
         </table>
         <table schema="elec_shop" tableName="sku" domainObjectName="Sku">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
-            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
         </table>
         <table schema="elec_shop" tableName="sku_property" domainObjectName="SkuProperty">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
-            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
         </table>
         <table schema="elec_shop" tableName="user" domainObjectName="User">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-            <!--<columnOverride column="gmt_create" jdbcType="DATETIME"/>-->
-            <!--<columnOverride column="gmt_modify" jdbcType="DATETIME"/>-->
+            <generatedKey column="id" sqlStatement="JDBC" identity="true" type=""/>
         </table>
-
     </context>
+
 </generatorConfiguration>

@@ -48,8 +48,6 @@ import java.util.concurrent.TimeUnit;
 @EnableWebSecurity
 public class Application implements EmbeddedServletContainerCustomizer {
 
-    Servlet s;
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

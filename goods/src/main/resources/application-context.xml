@@ -4,15 +4,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                 http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="user1" class="com.aperise.bean.User">
-        <property name="id" value="1"/>
-    </bean>
+    <!--<bean id="user1" class="com.aperise.bean.User">-->
+        <!--<property name="id" value="1"/>-->
+    <!--</bean>-->
 
-    <bean id="user2" class="com.aperise.bean.User">
-        <property name="id" value="2"/>
-    </bean>
+    <!--<bean id="user2" class="com.aperise.bean.User">-->
+        <!--<property name="id" value="2"/>-->
+    <!--</bean>-->
 
-    <bean id="user3" class="com.aperise.bean.User">
-        <property name="id" value="3"/>
-    </bean>
+    <!--<bean id="user3" class="com.aperise.bean.User">-->
+        <!--<property name="id" value="3"/>-->
+    <!--</bean>-->
 </beans>

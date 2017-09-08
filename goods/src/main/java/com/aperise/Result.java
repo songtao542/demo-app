@@ -4,9 +4,11 @@ import java.util.HashMap;
 
 public class Result extends HashMap<String, Object> {
 
-    public static interface STATUS {
+    public interface Status {
         int OK = 1000;
         int ERROR = 1001;
+        int PARAMETER_MISSING = 1002;
+        int PARAMETER_ERROR = 1003;
     }
 
     private Result(int status, String errorMessage) {
@@ -23,11 +25,11 @@ public class Result extends HashMap<String, Object> {
 
 
     public static Result OK(Object data) {
-        return new Result(STATUS.OK, data);
+        return new Result(Status.OK, data);
     }
 
     public static Result ERROR(String errorMessage) {
-        return new Result(STATUS.ERROR, errorMessage);
+        return new Result(Status.ERROR, errorMessage);
     }
 
     public static Result ERROR(int error, String errorMessage) {

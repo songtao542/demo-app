@@ -4,6 +4,7 @@ import com.aperise.bean.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ public interface UserMapper {
 
     public User selectUserWithGames(@Param("id") int id, @Param("offset") int offset, @Param("size") int size);
 
+    @Transactional(readOnly = true)
     public List<User> selectAllUserWithGames(@Param("offset") int offset, @Param("size") int size);
 
 }
