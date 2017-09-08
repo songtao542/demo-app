@@ -4,4 +4,10 @@
     <select id="selectUserNameById" resultType="String">
         select name from user where id = #{id}
     </select>
+
+    <select id="selectUserById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user where id = #{id}
+    </select>
 </mapper>

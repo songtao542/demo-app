@@ -17,7 +17,8 @@ public class UserViewController {
     @RequestMapping("/")
     public String index() {
         LogFactory.getLog("slf4j").debug("UserViewController /user/add");
-        return "sign_up";
+//        return "sign_up";
+        return "redirect:http://localhost/front-end/index.html";
     }
 
     @RequestMapping("/view/user/add_success")
