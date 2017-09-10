@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './css/bootstrap.css';
+import './css/bootstrap-grid.css';
 import "./header.css"
 import Navbar from 'react-bootstrap/lib/Navbar';
 import Nav from 'react-bootstrap/lib/Nav';
@@ -11,31 +12,29 @@ import MenuItem from 'react-bootstrap/lib/MenuItem';
 class Header extends Component {
     render() {
         return (
-            <Navbar staticTop inverse navbar-default navbar>
-                <Navbar.Header>
-                    <Navbar.Brand>
-                        <a href="#">React-Bootstrap</a>
-                    </Navbar.Brand>
-                    {/*<Navbar.Toggle/>*/}
-                </Navbar.Header>
-                <Navbar.Collapse>
-                    <Nav>
-                        <NavItem eventKey={1} href="#">Link</NavItem>
-                        <NavItem eventKey={2} href="#">Link</NavItem>
-                        <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-                            <MenuItem eventKey={3.1}>Action</MenuItem>
-                            <MenuItem eventKey={3.2}>Another action</MenuItem>
-                            <MenuItem eventKey={3.3}>Something else here</MenuItem>
-                            <MenuItem divider/>
-                            <MenuItem eventKey={3.3}>Separated link</MenuItem>
-                        </NavDropdown>
-                    </Nav>
-                    <Nav pullRight>
-                        <NavItem eventKey={1} href="#">Link Right</NavItem>
-                        <NavItem eventKey={2} href="#">Link Right</NavItem>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
+            <nav className="navbar  navbar-expand-lg navbar-dark bg-dark ">
+                <div className="container">
+                    <a className="navbar-brand" href="#">Navbar</a>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div className="navbar-nav mr-auto">
+                            <a className="nav-item nav-link active" href="#">Home</a>
+                            <a className="nav-item nav-link" href="#">Features</a>
+                            <a className="nav-item nav-link" href="#">Pricing</a>
+                            <a className="nav-item nav-link disabled " href="#">Disabled</a>
+                        </div>
+                        <div className="navbar-nav float-right my-2 my-lg-0">
+                            <a className="nav-item nav-link" href="#">Sign Up</a>
+                            <span className="nav-span align-self-center">or</span>
+                            <a className="nav-item nav-link" href="#">Sign In</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
         );
     }
 }

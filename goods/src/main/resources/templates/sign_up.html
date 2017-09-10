@@ -1,70 +1,100 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Title</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link type="text/css" rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{css/bootstrap.css}"/>
-    <script type="text/javascript" src="../static/js/jquery-3.2.1.min.js" th:src="@{js/jquery-3.2.1.min.js}"/>
-    <script type="text/javascript" src="../static/js/bootstrap.js" th:src="@{js/bootstrap.js}"/>
-    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"/>
-    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"/>
-    <!--<![endif]-->
-    <!--<script src="js/jquery-3.2.1.min.js"></script>-->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <!--<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"/>-->
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"-->
+    <!--integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">-->
+
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="../static/css/bootstrap-grid.css" th:href="@{/css/bootstrap-grid.css}" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="../static/css/main.css" th:href="@{/css/main.css}" crossorigin="anonymous"/>
+
+
 </head>
-
 <body>
-<div class="container">
-    <div class="col-md-offset-4 col-md-4">
-        <form class="col-md-offset-1 col-md-10" action="/user/add" th:action="@{/user/add}" method="post">
-            <div class="form-group">
-                <label for="exampleInputUserName">UserName</label>
-                <input type="text" name="name" class="form-control" id="exampleInputUserName"
-                       placeholder="UserName"/>
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail">Email address</label>
-                <input type="email" name="email" class="form-control" id="exampleInputEmail" placeholder="Email"/>
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword">Password</label>
-                <input type="password" name="password" class="form-control" id="exampleInputPassword"/>
-            </div>
-            <button type="submit" class="btn btn-sm">Sign Up</button>
-        </form>
-    </div>
-</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
 
-<div class="container">
-    <div id="loginModal" class="modal show">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close">x</button>
-                    <h1 class="text-center text-primary">登录</h1>
-                </div>
-                <!--<div class="modal-body">-->
-                    <!--<form action="" class="form col-md-12">-->
-                        <!--<div class="form-group">-->
-                            <!--<input type="text" class="form-control input-lg" placeholder="电子邮件"/>-->
-                        <!--</div>-->
-                        <!--<div class="form-group">-->
-                            <!--<input type="password" class="form-control input-lg" placeholder="登录密码"/>-->
-                        <!--</div>-->
-                        <!--<div class="form-group">-->
-                            <!--<button class="btn btn-primary btn-lg btn-block">立刻登录</button>-->
-                            <!--<span><a href="#">找回密码</a></span>-->
-                            <!--<span><a href="#" class="pull-right">注册</a></span>-->
-                        <!--</div>-->
-                    <!--</form>-->
-                <!--</div>-->
-                <div class="modal-footer"></div>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto ">
+                <li class="nav-item">
+                    <a class="nav-link" href="/signup" th:href="@{/signup}">Sign Up </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/signin" th:href="@{/signin}">Sign In</a>
+                </li>
+            </ul>
         </div>
     </div>
+</nav>
+
+
+<div class="full dark-bg display-flex">
+    <main class="container">
+        <div class="row close-full display-flex align-items-center mx-auto">
+            <div class="col-md-6 text-center">
+                <img src="../static/img/logo.svg" th:src="@{/img/logo.svg}" class="app-logo  "/>
+                <!--<embed src="./img/logo.svg" type="image/svg+xml" />-->
+            </div>
+            <div class="col-md-6 text-center">
+                <div class="card  card-size mx-auto">
+                    <div class="card-body align-content-center ">
+                        <form action="/user/add" th:action="@{/user/add}" method="post">
+                            <div class="form-group">
+                                <label class="float-left" for="inputUserName">UserName</label>
+                                <input type="text" name="name" class="form-control" id="inputUserName"
+                                       placeholder="UserName"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="float-left" for="inputEmail">Email address</label>
+                                <input type="email" name="email" class="form-control" id="inputEmail"
+                                       placeholder="Email"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="float-left" for="inputPassword">Password</label>
+                                <input type="password" name="password" class="form-control"
+                                       id="inputPassword"/>
+                            </div>
+                            <button type="submit" class="btn btn-success col-md-12">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>
+
 </body>
 </html>

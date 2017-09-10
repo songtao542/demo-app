@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="857c2dee-4d86-46d9-940f-d106d10ade74" name="apache" url="http://localhost/">
-        <fileTransfer port="0" mountedRoot="$USER_HOME$/www/html" accessType="MOUNT" />
+        <fileTransfer port="0" mountedRoot="$USER_HOME$/WebServer/Documents" accessType="MOUNT" />
       </webServer>
     </option>
   </component>

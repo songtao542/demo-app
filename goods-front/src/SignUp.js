@@ -6,8 +6,8 @@ import './SignUp.css';
 class SignUp extends Component {
     render() {
         return (
-            <div className="panel">
-                <div className="panel-body">
+            <div className="card">
+                <div className="card-body">
                     <form action="http://localhost:8081/user/add" method="post">
                         <div className="form-group">
                             <label for="exampleInputUserName">UserName</label>

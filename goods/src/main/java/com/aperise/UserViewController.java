@@ -2,6 +2,8 @@ package com.aperise;
 
 import com.aperise.mapper.UserMapper;
 import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,13 +15,33 @@ public class UserViewController {
 
     @Autowired
     UserMapper userMapper;
+    protected static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @RequestMapping("/")
     public String index() {
-        LogFactory.getLog("slf4j").debug("UserViewController /user/add");
-        return "sign_up";
+        logger.debug("UserViewController xxxxxxxxxxxxxxxxxxx/index");
+        return "sign_in";
 //        return "redirect:http://localhost/front-end/index.html";
     }
+
+    @RequestMapping("/login")
+    public String login() {
+        logger.debug("UserViewController *********************** /login");
+        return "sign_in";
+    }
+
+    @RequestMapping("/signin")
+    public String signin(Model model) {
+        logger.debug("UserViewController -----------------------/signin model="+model.asMap());
+        return "sign_in";
+    }
+
+    @RequestMapping("/signup")
+    public String signUp() {
+        logger.debug("UserViewController /signup");
+        return "sign_up";
+    }
+
 
     @RequestMapping("/view/user/add_success")
     public String addUserSuccess() {

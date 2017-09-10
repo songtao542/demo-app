@@ -1,0 +1,181 @@
+ <Navbar staticTop inverse role="banner" >
+                                <Navbar.Header >
+                                    <Navbar.Brand >
+                                        <a className="a navbar-brand" href="#">React-Bootstrap</a>
+                                    </Navbar.Brand>
+                                    <Navbar.Toggle/>
+                                </Navbar.Header>
+                                <Navbar.Collapse >
+                                    <Nav>
+                                        <NavItem eventKey={1} href="#">Link</NavItem>
+                                        <NavItem eventKey={2} href="#">Link</NavItem>
+                                        <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
+                                            <MenuItem eventKey={3.1}>Action</MenuItem>
+                                            <MenuItem eventKey={3.2}>Another action</MenuItem>
+                                            <MenuItem eventKey={3.3}>Something else here</MenuItem>
+                                            <MenuItem divider/>
+                                            <MenuItem eventKey={3.3}>Separated link</MenuItem>
+                                        </NavDropdown>
+                                    </Nav>
+                                    <Nav pullRight>
+                                        <NavItem eventKey={1} href="#">Link Right</NavItem>
+                                        <NavItem eventKey={2} href="#">Link Right</NavItem>
+                                    </Nav>
+                                </Navbar.Collapse>
+                            </Navbar>
+
+
+ <header className="navbar navbar-default navbar-static-top navbar-inverse">
+                 <div className="container">
+                     <div className="navbar-header">
+                         <a className="navbar-brand" href="/">React-Bootstrap</a>
+                         <button type="button" className="navbar-toggle collapsed">
+                             <span className="sr-only">Toggle navigation</span>
+                             <span className="icon-bar"></span>
+                             <span class="icon-bar"></span>
+                             <span className="icon-bar"></span>
+                         </button>
+                     </div>
+                     <div className="navbar-collapse collapse">
+                         <ul id="top" className="nav navbar-nav">
+                             <li><a href="/introduction.html">Introduction</a></li>
+                             <li><a href="/getting-started.html">Getting started</a></li>
+                             <li class="active"><a href="/components.html">Components</a></li>
+                             <li><a href="/support.html">Support</a></li>
+                             <li><a href="https://github.com/react-bootstrap/react-bootstrap" target="_blank">GitHub</a>
+                             </li>
+                         </ul>
+                     </div>
+                 </div>
+             </header>
+
+
+   <div className="container ">
+                       <div class="row vertical-align">
+                           <div className="col-md-6  vertical-align">
+                               <img src={logo} className="app-logo img-responsive"/>
+                           </div>
+                           <div className="col-md-6  vertical-align bac">
+                               <SignUp/>
+                           </div>
+                       </div>
+                   </div>
+
+
+  <div className="container    ">
+                    <div className="col-md-6">
+                        <img src={logo} className="app-logo img-responsive"/>
+                    </div>
+                    <div className="col-md-6 display-table   bac myauto ">
+                        <div className="col-md-offset-1 col-md-8 myauto   ">
+                            <SignUp/>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+<div className="panel">
+                <div className="panel-body">
+                    <form action="http://localhost:8081/user/add" method="post">
+                        <div className="form-group">
+                            <label for="exampleInputUserName">UserName</label>
+                            <input type="text" name="name" className="form-control" id="exampleInputUserName"
+                                   placeholder="UserName"/>
+                        </div>
+                        <div className="form-group">
+                            <label for="exampleInputEmail">Email address</label>
+                            <input type="email" name="email" className="form-control" id="exampleInputEmail"
+                                   placeholder="Email"/>
+                        </div>
+                        <div className="form-group">
+                            <label for="exampleInputPassword">Password</label>
+                            <input type="password" name="password" className="form-control"
+                                   id="exampleInputPassword"/>
+                        </div>
+                        <button type="submit" className="btn btn-success col-md-12">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+
+
+
+   <div className="banner">
+                <Header/>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <img src={logo} className="app-logo img-responsive"/>
+                        </div>
+                        <div class="col-6">
+                            <div class="card text-white bg-danger">
+                                <SignUp/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+居中模板
+ <div className="container">
+                    <div className="row align-items-center">
+                        <div className="col-6">
+                            <div className="card card-body">Center</div>
+                        </div>
+                        <div className="col-6">
+                            <div className="card text-white bg-danger">
+                                <div className="card-body">
+                                    <h3 className="card-title">Taller</h3>
+                                    <p className="card-text">With supporting text below as a natural lead-in to additional
+                                        content.</p>
+                                    <a href="#" className="btn text-white border-light">Outline</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="container">
+                    <div className="row align-items-center">
+                        <div className="col-4">
+                            <div className="card card-body">Center</div>
+                        </div>
+                        <div className="col-4">
+                            <div className="card text-white bg-danger">
+                                <div className="card-body">
+                                    <h3 className="card-title">Taller</h3>
+                                    <p className="card-text">With supporting text below as a natural lead-in to additional
+                                        content.</p>
+                                    <a href="#" className="btn text-white border-light">Outline</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-4">
+                            <div className="card card-body">Center</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="container">
+                    <div className="row">
+                        <div className="col-4">
+                            <div className="card card-body">Top (default)</div>
+                        </div>
+                        <div className="col-4">
+                            <div className="card text-white bg-danger">
+                                <div className="card-body">
+                                    <h3 className="card-title">Taller</h3>
+                                    <p className="card-text">With supporting text below as a natural lead-in to additional
+                                        content.</p>
+                                    <a href="#" className="btn text-white border-light">Outline</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-4 align-self-center">
+                            <div className="card card-body">Center</div>
+                        </div>
+                    </div>
+                </div>

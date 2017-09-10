@@ -1,5 +1,17 @@
-.panel-body {
-    padding: 30px;
+.card-body {
+
+
+}
+
+.card{
+    padding: 15px;
+    min-width: 200px;
+    min-height: 300px;
+    max-width: 400px;
+    max-height: 500px;
+    width: 360px;
+    height: 400px;
+    background-color: #2aabd2;
 }
 
 .btn {

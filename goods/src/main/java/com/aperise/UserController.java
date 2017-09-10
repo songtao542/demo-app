@@ -86,7 +86,7 @@ public class UserController {
 
     @RequestMapping("/user/name")
     public Result userName(@RequestParam(value = "id", defaultValue = "1") Integer id) {
-        String name = userMapper.selectUserNameById(id);
+        String name = userMapper.selectNameById(id);
         logger.debug("name=" + name);
         return Result.OK(name);
     }

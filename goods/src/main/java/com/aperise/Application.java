@@ -3,6 +3,7 @@ package com.aperise;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
@@ -10,6 +11,16 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -18,7 +29,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.concurrent.TimeUnit;
 
 //@EnableGlobalMethodSecurity
-//@EnableWebSecurity
+@EnableWebSecurity
 @ImportResource(locations = {"application-context.xml"})
 @MapperScan({"com.aperise.mapper"})
 @SpringBootApplication
@@ -43,7 +54,7 @@ public class Application implements EmbeddedServletContainerCustomizer {
         factory.setSessionTimeout(30, TimeUnit.MINUTES);
         return factory;
     }
-    
+
 
 //    @Bean
 //    public WebMvcConfigurer getWebMvcConfigurer() {
@@ -66,17 +77,45 @@ public class Application implements EmbeddedServletContainerCustomizer {
         return bean;
     }
 
+    @Bean
+    @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+    public WebSecurityConfigurerAdapter getWebSecurityConfigurerAdapter() {
+        WebSecurityConfigurerAdapter adapter = new WebSecurityConfigurerAdapter() {
+            @Override
+            protected void configure(HttpSecurity http) throws Exception {
+//                super.configure(http);
+                http.authorizeRequests()
+                        .antMatchers("/resources/**", "/css/*", "/js/*", "/img/*", "/login","/signup", "/signin", "/").permitAll()
+                        .anyRequest()
+                        .authenticated()
+                        .and()
+                        .formLogin()
+                        .loginPage("/signin")
+//                        .loginProcessingUrl("/login")
+                ;
+            }
+        };
+        return adapter;
+    }
+
+    @Bean
+    public UserDetailsService springDataUserDetailsService() {
+        return new MyUserDetailsService();
+    }
+
 //    @Bean
-//    @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-//    public WebSecurityConfigurerAdapter getWebSecurityConfigurerAdapter() {
-//        WebSecurityConfigurerAdapter adapter = new WebSecurityConfigurerAdapter() {
+//    public AuthenticationProvider springAuthenticationProvider() {
+//        return new AuthenticationProvider() {
 //            @Override
-//            protected void configure(HttpSecurity http) throws Exception {
-////                super.configure(http);
-//                http.authorizeRequests().antMatchers("/resources/**", "/", "/about").permitAll();
+//            public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+//                return null;
+//            }
+//
+//            @Override
+//            public boolean supports(Class<?> authentication) {
+//                return false;
 //            }
 //        };
-//        return adapter;
 //    }
 
 //    @Bean
