@@ -1,5 +1,6 @@
-package com.aperise;
+package com.aperise.controller;
 
+import com.aperise.Result;
 import com.aperise.Result.Status;
 import com.aperise.bean.User;
 import com.aperise.bean.UserCriteria;
@@ -9,9 +10,12 @@ import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import java.util.Date;
 import java.util.List;
@@ -81,6 +85,8 @@ public class UserController {
             return Result.ERROR(Status.PARAMETER_MISSING, "id can't be empty!");
         }
         User user = userMapper.selectByPrimaryKey(id);
+        logger.debug("RequestContextHolder.getRequestAttributes()=" + RequestContextHolder.getRequestAttributes() );
+        DispatcherServlet a;
         return Result.OK(user);
     }
 

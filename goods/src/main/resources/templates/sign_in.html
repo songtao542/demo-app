@@ -73,7 +73,7 @@
                 <div class="card  card-size-sm mx-auto">
                     <div class="card-body align-content-center ">
 
-                        <form action="/login" th:action="@{/signin}" method="post">
+                        <form action="/signin" th:action="@{/signin}" method="post">
                             <div th:if="${param.error}" class="alert alert-danger">
                                 Invalid username or password.
                             </div>

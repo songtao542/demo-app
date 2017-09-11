@@ -2,6 +2,7 @@ package com.aperise;
 
 
 import com.aperise.bean.User;
+import com.aperise.controller.UserController;
 import com.aperise.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,12 +50,18 @@ public class MyUserDetailsService implements UserDetailsService {
 
         @Override
         public String getPassword() {
-            return user.getPassword();
+            if (user != null) {
+                return user.getPassword();
+            }
+            return "";
         }
 
         @Override
         public String getUsername() {
-            return String.valueOf(user.getName());
+            if (user != null) {
+                return String.valueOf(user.getName());
+            }
+            return "";
         }
 
         @Override

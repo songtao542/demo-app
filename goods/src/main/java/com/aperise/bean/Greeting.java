@@ -1,4 +1,4 @@
-package com.aperise;
+package com.aperise.bean;
 
 import org.apache.ibatis.type.JdbcType;
 

@@ -13,7 +13,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addMapping("/user/*");
     }
 
-
 //    @Override
 //    public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //        registry.addResourceHandler("/resources/**")
@@ -24,4 +23,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 //        configurer.enable();
 //    }
+
+
+
 }

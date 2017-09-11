@@ -1,7 +1,6 @@
-package com.aperise;
+package com.aperise.controller;
 
 import com.aperise.mapper.UserMapper;
-import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +9,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class UserViewController {
 
     @Autowired
     UserMapper userMapper;
-    protected static Logger logger = LoggerFactory.getLogger(UserController.class);
+    protected static Logger logger = LoggerFactory.getLogger(UserViewController.class);
 
     @RequestMapping("/")
     public String index() {
         logger.debug("UserViewController xxxxxxxxxxxxxxxxxxx/index");
-        return "sign_in";
+        return "main";
 //        return "redirect:http://localhost/front-end/index.html";
     }
 
@@ -31,13 +32,13 @@ public class UserViewController {
     }
 
     @RequestMapping("/signin")
-    public String signin(Model model) {
-        logger.debug("UserViewController -----------------------/signin model="+model.asMap());
+    public String signin(HttpServletRequest request) {
+        logger.debug("UserViewController -----------------------/request:" + request.getMethod() + "  -- " + request.getRequestURI() + "  -- " + request.getQueryString());
         return "sign_in";
     }
 
     @RequestMapping("/signup")
-    public String signUp() {
+    public String signup() {
         logger.debug("UserViewController /signup");
         return "sign_up";
     }
