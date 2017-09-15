@@ -9,9 +9,9 @@
 </head>
 <body>
 <p th:text="'Hello, ' + ${name} + '!'"/>
-<form onsubmit="/user/add" method="post">
-    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1"/>
-    <button type="submit">Sign up</button>
-</form>
+<p th:text="'Hello, ' + ${attr} + '!'"/>
+<p th:text="'Hello, ' + ${string} + '!'"/>
+<p th:text="'Hello, ' + ${attr2} + '!'"/>
+
 </body>
 </html>

@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface GenProductPropertyMapper {
-    long countByExample(ProductPropertyCriteria example);
+    long countByCriteria(ProductPropertyCriteria example);
 
-    int deleteByExample(ProductPropertyCriteria example);
+    int deleteByCriteria(ProductPropertyCriteria example);
 
     int deleteByPrimaryKey(Integer id);
 
@@ -17,15 +17,15 @@ public interface GenProductPropertyMapper {
 
     int insertSelective(ProductProperty record);
 
-    List<ProductProperty> selectByExampleWithRowbounds(ProductPropertyCriteria example, RowBounds rowBounds);
+    List<ProductProperty> selectByCriteriaWithRowbounds(ProductPropertyCriteria example, RowBounds rowBounds);
 
-    List<ProductProperty> selectByExample(ProductPropertyCriteria example);
+    List<ProductProperty> selectByCriteria(ProductPropertyCriteria example);
 
     ProductProperty selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") ProductProperty record, @Param("example") ProductPropertyCriteria example);
+    int updateByCriteriaSelective(@Param("record") ProductProperty record, @Param("example") ProductPropertyCriteria example);
 
-    int updateByExample(@Param("record") ProductProperty record, @Param("example") ProductPropertyCriteria example);
+    int updateByCriteria(@Param("record") ProductProperty record, @Param("example") ProductPropertyCriteria example);
 
     int updateByPrimaryKeySelective(ProductProperty record);
 

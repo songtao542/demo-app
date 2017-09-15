@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface GenSkuPropertyMapper {
-    long countByExample(SkuPropertyCriteria example);
+    long countByCriteria(SkuPropertyCriteria example);
 
-    int deleteByExample(SkuPropertyCriteria example);
+    int deleteByCriteria(SkuPropertyCriteria example);
 
     int deleteByPrimaryKey(Integer id);
 
@@ -17,15 +17,15 @@ public interface GenSkuPropertyMapper {
 
     int insertSelective(SkuProperty record);
 
-    List<SkuProperty> selectByExampleWithRowbounds(SkuPropertyCriteria example, RowBounds rowBounds);
+    List<SkuProperty> selectByCriteriaWithRowbounds(SkuPropertyCriteria example, RowBounds rowBounds);
 
-    List<SkuProperty> selectByExample(SkuPropertyCriteria example);
+    List<SkuProperty> selectByCriteria(SkuPropertyCriteria example);
 
     SkuProperty selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") SkuProperty record, @Param("example") SkuPropertyCriteria example);
+    int updateByCriteriaSelective(@Param("record") SkuProperty record, @Param("example") SkuPropertyCriteria example);
 
-    int updateByExample(@Param("record") SkuProperty record, @Param("example") SkuPropertyCriteria example);
+    int updateByCriteria(@Param("record") SkuProperty record, @Param("example") SkuPropertyCriteria example);
 
     int updateByPrimaryKeySelective(SkuProperty record);
 

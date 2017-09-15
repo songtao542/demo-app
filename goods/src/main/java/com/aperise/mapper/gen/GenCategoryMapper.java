@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface GenCategoryMapper {
-    long countByExample(CategoryCriteria example);
+    long countByCriteria(CategoryCriteria example);
 
-    int deleteByExample(CategoryCriteria example);
+    int deleteByCriteria(CategoryCriteria example);
 
     int deleteByPrimaryKey(Integer id);
 
@@ -17,15 +17,15 @@ public interface GenCategoryMapper {
 
     int insertSelective(Category record);
 
-    List<Category> selectByExampleWithRowbounds(CategoryCriteria example, RowBounds rowBounds);
+    List<Category> selectByCriteriaWithRowbounds(CategoryCriteria example, RowBounds rowBounds);
 
-    List<Category> selectByExample(CategoryCriteria example);
+    List<Category> selectByCriteria(CategoryCriteria example);
 
     Category selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") Category record, @Param("example") CategoryCriteria example);
+    int updateByCriteriaSelective(@Param("record") Category record, @Param("example") CategoryCriteria example);
 
-    int updateByExample(@Param("record") Category record, @Param("example") CategoryCriteria example);
+    int updateByCriteria(@Param("record") Category record, @Param("example") CategoryCriteria example);
 
     int updateByPrimaryKeySelective(Category record);
 

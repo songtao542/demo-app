@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.18, for osx10.12 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.19, for Linux (x86_64)
 --
 -- Host: localhost    Database: elec_shop
 -- ------------------------------------------------------
--- Server version	5.7.18
+-- Server version	5.7.19-0ubuntu0.16.04.1-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -22,6 +22,149 @@
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ `elec_shop` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `elec_shop`;
+
+--
+-- Table structure for table `acl_class`
+--
+
+DROP TABLE IF EXISTS `acl_class`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `acl_class` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `class` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_acl_class` (`class`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `acl_class`
+--
+
+LOCK TABLES `acl_class` WRITE;
+/*!40000 ALTER TABLE `acl_class` DISABLE KEYS */;
+INSERT INTO `acl_class` VALUES (1,'url-pattern');
+/*!40000 ALTER TABLE `acl_class` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `acl_entry`
+--
+
+DROP TABLE IF EXISTS `acl_entry`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `acl_entry` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `acl_object_identity` bigint(20) unsigned NOT NULL,
+  `ace_order` int(11) NOT NULL,
+  `sid` bigint(20) unsigned NOT NULL,
+  `mask` int(10) unsigned NOT NULL,
+  `granting` tinyint(1) NOT NULL,
+  `audit_success` tinyint(1) NOT NULL,
+  `audit_failure` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_acl_entry` (`acl_object_identity`,`ace_order`),
+  KEY `fk_acl_entry_acl` (`sid`),
+  CONSTRAINT `fk_acl_entry_acl` FOREIGN KEY (`sid`) REFERENCES `acl_sid` (`id`),
+  CONSTRAINT `fk_acl_entry_object` FOREIGN KEY (`acl_object_identity`) REFERENCES `acl_object_identity` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `acl_entry`
+--
+
+LOCK TABLES `acl_entry` WRITE;
+/*!40000 ALTER TABLE `acl_entry` DISABLE KEYS */;
+INSERT INTO `acl_entry` VALUES (1,1,1,1,16,1,0,0),(2,2,1,1,16,1,0,0);
+/*!40000 ALTER TABLE `acl_entry` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `acl_object_identity`
+--
+
+DROP TABLE IF EXISTS `acl_object_identity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `acl_object_identity` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `object_id_class` bigint(20) unsigned NOT NULL,
+  `object_id_identity` bigint(20) NOT NULL,
+  `parent_object` bigint(20) unsigned DEFAULT NULL,
+  `owner_sid` bigint(20) unsigned DEFAULT NULL,
+  `entries_inheriting` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_acl_object_identity` (`object_id_class`,`object_id_identity`),
+  KEY `fk_acl_object_identity_parent` (`parent_object`),
+  KEY `fk_acl_object_identity_owner` (`owner_sid`),
+  CONSTRAINT `fk_acl_object_identity_class` FOREIGN KEY (`object_id_class`) REFERENCES `acl_class` (`id`),
+  CONSTRAINT `fk_acl_object_identity_owner` FOREIGN KEY (`owner_sid`) REFERENCES `acl_sid` (`id`),
+  CONSTRAINT `fk_acl_object_identity_parent` FOREIGN KEY (`parent_object`) REFERENCES `acl_object_identity` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `acl_object_identity`
+--
+
+LOCK TABLES `acl_object_identity` WRITE;
+/*!40000 ALTER TABLE `acl_object_identity` DISABLE KEYS */;
+INSERT INTO `acl_object_identity` VALUES (1,1,1,NULL,NULL,0),(2,1,2,NULL,NULL,0);
+/*!40000 ALTER TABLE `acl_object_identity` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `acl_resource`
+--
+
+DROP TABLE IF EXISTS `acl_resource`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `acl_resource` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `resource` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `acl_resource`
+--
+
+LOCK TABLES `acl_resource` WRITE;
+/*!40000 ALTER TABLE `acl_resource` DISABLE KEYS */;
+INSERT INTO `acl_resource` VALUES (1,'/user/info'),(2,'/user/list');
+/*!40000 ALTER TABLE `acl_resource` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `acl_sid`
+--
+
+DROP TABLE IF EXISTS `acl_sid`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `acl_sid` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `principal` tinyint(1) NOT NULL,
+  `sid` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_acl_sid` (`sid`,`principal`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `acl_sid`
+--
+
+LOCK TABLES `acl_sid` WRITE;
+/*!40000 ALTER TABLE `acl_sid` DISABLE KEYS */;
+INSERT INTO `acl_sid` VALUES (1,0,'ROLE_ADMIN'),(2,0,'ROLE_USER');
+/*!40000 ALTER TABLE `acl_sid` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `category`
@@ -201,6 +344,30 @@ LOCK TABLES `property_value` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `role`
+--
+
+DROP TABLE IF EXISTS `role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `role` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role`
+--
+
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER');
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sku`
 --
 
@@ -275,6 +442,9 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `email` varchar(30) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `password` varchar(18) DEFAULT NULL,
   `name` varchar(20) NOT NULL,
   `nickname` varchar(20) DEFAULT NULL,
   `birthday` datetime DEFAULT NULL,
@@ -285,7 +455,7 @@ CREATE TABLE `user` (
   `gmt_modify` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_deleted` char(1) DEFAULT 'n' COMMENT '是否删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -294,8 +464,37 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'王松涛','涛哥','2010-03-03 12:23:34','M',175,59,'2017-03-12 04:34:10','2017-09-02 01:18:45','n');
+INSERT INTO `user` VALUES (1,'songtao542@gmail.com','13419517416','123','wangsongtao','涛哥','2010-03-03 12:23:34','M',175,59,'2017-03-12 04:34:10','2017-09-11 11:16:06','n'),(2,'zhangyi@apirise.com','13654789526','123','zhangyi','毅哥','1992-07-06 12:23:34','M',172,62,'2017-09-14 14:00:06','2017-09-15 15:01:14','n'),(3,'gongcong@apirise.com','136547874859','123','gongcong','聪哥','1992-10-05 12:23:34','M',172,62,'2017-09-14 14:00:21','2017-09-15 15:02:09','n');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_role`
+--
+
+DROP TABLE IF EXISTS `user_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_role` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `role_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_user_role_user` (`user_id`),
+  KEY `fk_user_role_role` (`role_id`),
+  CONSTRAINT `fk_user_role_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
+  CONSTRAINT `fk_user_role_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_role`
+--
+
+LOCK TABLES `user_role` WRITE;
+/*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
+INSERT INTO `user_role` VALUES (1,1,1),(2,2,2),(3,3,1);
+/*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -307,4 +506,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-05 22:40:30
+-- Dump completed on 2017-09-15 18:21:45

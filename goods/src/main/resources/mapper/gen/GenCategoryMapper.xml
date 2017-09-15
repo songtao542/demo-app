@@ -70,7 +70,7 @@
   <sql id="Base_Column_List">
     id, name, display_name, gmt_create, gmt_modify, is_deleted
   </sql>
-  <select id="selectByExample" parameterType="com.aperise.bean.CategoryCriteria" resultMap="BaseResultMap">
+  <select id="selectByCriteria" parameterType="com.aperise.bean.CategoryCriteria" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -94,7 +94,7 @@
     delete from category
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.aperise.bean.CategoryCriteria">
+  <delete id="deleteByCriteria" parameterType="com.aperise.bean.CategoryCriteria">
     delete from category
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -143,13 +143,13 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.aperise.bean.CategoryCriteria" resultType="java.lang.Long">
+  <select id="countByCriteria" parameterType="com.aperise.bean.CategoryCriteria" resultType="java.lang.Long">
     select count(*) from category
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <update id="updateByCriteriaSelective" parameterType="map">
     update category
     <set>
       <if test="record.id != null">
@@ -175,7 +175,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map">
+  <update id="updateByCriteria" parameterType="map">
     update category
     set id = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
@@ -217,7 +217,7 @@
       is_deleted = #{isDeleted,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="com.aperise.bean.CategoryCriteria" resultMap="BaseResultMap">
+  <select id="selectByCriteriaWithRowbounds" parameterType="com.aperise.bean.CategoryCriteria" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct

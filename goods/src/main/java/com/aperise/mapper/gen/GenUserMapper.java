@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface GenUserMapper {
-    long countByExample(UserCriteria example);
+    long countByCriteria(UserCriteria example);
 
-    int deleteByExample(UserCriteria example);
+    int deleteByCriteria(UserCriteria example);
 
     int deleteByPrimaryKey(Integer id);
 
@@ -17,15 +17,15 @@ public interface GenUserMapper {
 
     int insertSelective(User record);
 
-    List<User> selectByExampleWithRowbounds(UserCriteria example, RowBounds rowBounds);
+    List<User> selectByCriteriaWithRowbounds(UserCriteria example, RowBounds rowBounds);
 
-    List<User> selectByExample(UserCriteria example);
+    List<User> selectByCriteria(UserCriteria example);
 
     User selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") User record, @Param("example") UserCriteria example);
+    int updateByCriteriaSelective(@Param("record") User record, @Param("example") UserCriteria example);
 
-    int updateByExample(@Param("record") User record, @Param("example") UserCriteria example);
+    int updateByCriteria(@Param("record") User record, @Param("example") UserCriteria example);
 
     int updateByPrimaryKeySelective(User record);
 

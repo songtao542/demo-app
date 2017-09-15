@@ -244,7 +244,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../TrainingBoot" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -356,7 +356,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37810000" />
+    <option name="totallyTimeSpent" value="37823000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="32" width="1853" height="1048" extended-state="0" />

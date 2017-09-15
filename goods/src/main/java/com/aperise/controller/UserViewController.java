@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,6 +18,21 @@ public class UserViewController {
     @Autowired
     UserMapper userMapper;
     protected static Logger logger = LoggerFactory.getLogger(UserViewController.class);
+
+    @ModelAttribute
+    public void setModelAttr(Model model){
+         model.addAttribute("attr","test attr");
+    }
+
+    @ModelAttribute
+    public String setModelAttr1(){
+        return "test attr1";
+    }
+
+    @ModelAttribute("attr2")
+    public String setModelAttr2(){
+        return "test attr2";
+    }
 
     @RequestMapping("/")
     public String index() {

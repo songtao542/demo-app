@@ -1,8 +1,10 @@
 package com.aperise;
 
 
+import com.aperise.bean.Role;
 import com.aperise.bean.User;
 import com.aperise.controller.UserController;
+import com.aperise.mapper.RoleMapper;
 import com.aperise.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,16 +13,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Component("userDetailsService")
 public class MyUserDetailsService implements UserDetailsService {
     protected static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     UserMapper userMapper;
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -40,11 +43,11 @@ public class MyUserDetailsService implements UserDetailsService {
             this.user = user;
         }
 
-
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
             ArrayList<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new MyGrantedAuthority("*"));
+            String role = user.getRole() == null ? "ROLE_USER" : user.getRole().getName();
+            authorities.add(new MyGrantedAuthority(role));
             return authorities;
         }
 
@@ -59,7 +62,7 @@ public class MyUserDetailsService implements UserDetailsService {
         @Override
         public String getUsername() {
             if (user != null) {
-                return String.valueOf(user.getName());
+                return String.valueOf(user.getId());
             }
             return "";
         }

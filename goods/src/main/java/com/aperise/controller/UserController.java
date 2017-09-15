@@ -85,7 +85,7 @@ public class UserController {
             return Result.ERROR(Status.PARAMETER_MISSING, "id can't be empty!");
         }
         User user = userMapper.selectByPrimaryKey(id);
-        logger.debug("RequestContextHolder.getRequestAttributes()=" + RequestContextHolder.getRequestAttributes() );
+        logger.debug("RequestContextHolder.getRequestAttributes()=" + RequestContextHolder.getRequestAttributes());
         DispatcherServlet a;
         return Result.OK(user);
     }
@@ -100,8 +100,8 @@ public class UserController {
     @RequestMapping("/user/list")
     public Result userList(@RequestParam(value = "offset", defaultValue = "0") int offset) throws Exception {
         System.out.println("offset=" + offset);
-        UserCriteria example = new UserCriteria();
-        List<User> users = userMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, 20));
+        UserCriteria criteria = new UserCriteria();
+        List<User> users = userMapper.selectByCriteriaWithRowbounds(criteria, new RowBounds(offset, 20));
         return Result.OK(users);
     }
 

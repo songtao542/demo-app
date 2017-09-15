@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface GenMerchantMapper {
-    long countByExample(MerchantCriteria example);
+    long countByCriteria(MerchantCriteria example);
 
-    int deleteByExample(MerchantCriteria example);
+    int deleteByCriteria(MerchantCriteria example);
 
     int deleteByPrimaryKey(Integer id);
 
@@ -17,15 +17,15 @@ public interface GenMerchantMapper {
 
     int insertSelective(Merchant record);
 
-    List<Merchant> selectByExampleWithRowbounds(MerchantCriteria example, RowBounds rowBounds);
+    List<Merchant> selectByCriteriaWithRowbounds(MerchantCriteria example, RowBounds rowBounds);
 
-    List<Merchant> selectByExample(MerchantCriteria example);
+    List<Merchant> selectByCriteria(MerchantCriteria example);
 
     Merchant selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") Merchant record, @Param("example") MerchantCriteria example);
+    int updateByCriteriaSelective(@Param("record") Merchant record, @Param("example") MerchantCriteria example);
 
-    int updateByExample(@Param("record") Merchant record, @Param("example") MerchantCriteria example);
+    int updateByCriteria(@Param("record") Merchant record, @Param("example") MerchantCriteria example);
 
     int updateByPrimaryKeySelective(Merchant record);
 

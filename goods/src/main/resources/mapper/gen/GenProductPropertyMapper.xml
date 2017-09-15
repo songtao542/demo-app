@@ -70,7 +70,7 @@
   <sql id="Base_Column_List">
     id, product_id, property_id, gmt_create, gmt_modify, is_deleted
   </sql>
-  <select id="selectByExample" parameterType="com.aperise.bean.ProductPropertyCriteria" resultMap="BaseResultMap">
+  <select id="selectByCriteria" parameterType="com.aperise.bean.ProductPropertyCriteria" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -94,7 +94,7 @@
     delete from product_property
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.aperise.bean.ProductPropertyCriteria">
+  <delete id="deleteByCriteria" parameterType="com.aperise.bean.ProductPropertyCriteria">
     delete from product_property
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -143,13 +143,13 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.aperise.bean.ProductPropertyCriteria" resultType="java.lang.Long">
+  <select id="countByCriteria" parameterType="com.aperise.bean.ProductPropertyCriteria" resultType="java.lang.Long">
     select count(*) from product_property
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <update id="updateByCriteriaSelective" parameterType="map">
     update product_property
     <set>
       <if test="record.id != null">
@@ -175,7 +175,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map">
+  <update id="updateByCriteria" parameterType="map">
     update product_property
     set id = #{record.id,jdbcType=INTEGER},
       product_id = #{record.productId,jdbcType=INTEGER},
@@ -217,7 +217,7 @@
       is_deleted = #{isDeleted,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="com.aperise.bean.ProductPropertyCriteria" resultMap="BaseResultMap">
+  <select id="selectByCriteriaWithRowbounds" parameterType="com.aperise.bean.ProductPropertyCriteria" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct

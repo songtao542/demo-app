@@ -30,6 +30,16 @@ public class User implements Serializable {
 
     private String isDeleted;
 
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {

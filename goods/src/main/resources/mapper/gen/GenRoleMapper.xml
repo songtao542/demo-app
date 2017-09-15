@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.aperise.mapper.MerchantMapper">
-  <resultMap id="BaseResultMap" type="com.aperise.bean.Merchant">
-    <id column="id" jdbcType="INTEGER" property="id" />
+<mapper namespace="com.aperise.mapper.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.aperise.bean.Role">
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="display_name" jdbcType="VARCHAR" property="displayName" />
-    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
-    <result column="is_deleted" jdbcType="CHAR" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,15 +64,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, display_name, gmt_create, gmt_modify, is_deleted
+    id, name
   </sql>
-  <select id="selectByCriteria" parameterType="com.aperise.bean.MerchantCriteria" resultMap="BaseResultMap">
+  <select id="selectByCriteria" parameterType="com.aperise.bean.RoleCriteria" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from merchant
+    from role
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -84,91 +80,53 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from merchant
-    where id = #{id,jdbcType=INTEGER}
+    from role
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from merchant
-    where id = #{id,jdbcType=INTEGER}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from role
+    where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByCriteria" parameterType="com.aperise.bean.MerchantCriteria">
-    delete from merchant
+  <delete id="deleteByCriteria" parameterType="com.aperise.bean.RoleCriteria">
+    delete from role
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.aperise.bean.Merchant" useGeneratedKeys="true">
-    insert into merchant (name, display_name, gmt_create, 
-      gmt_modify, is_deleted)
-    values (#{name,jdbcType=VARCHAR}, #{displayName,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModify,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=CHAR})
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.aperise.bean.Role" useGeneratedKeys="true">
+    insert into role (name)
+    values (#{name,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.aperise.bean.Merchant" useGeneratedKeys="true">
-    insert into merchant
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.aperise.bean.Role" useGeneratedKeys="true">
+    insert into role
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="name != null">
         name,
-      </if>
-      <if test="displayName != null">
-        display_name,
-      </if>
-      <if test="gmtCreate != null">
-        gmt_create,
-      </if>
-      <if test="gmtModify != null">
-        gmt_modify,
-      </if>
-      <if test="isDeleted != null">
-        is_deleted,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="displayName != null">
-        #{displayName,jdbcType=VARCHAR},
-      </if>
-      <if test="gmtCreate != null">
-        #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDeleted != null">
-        #{isDeleted,jdbcType=CHAR},
-      </if>
     </trim>
   </insert>
-  <select id="countByCriteria" parameterType="com.aperise.bean.MerchantCriteria" resultType="java.lang.Long">
-    select count(*) from merchant
+  <select id="countByCriteria" parameterType="com.aperise.bean.RoleCriteria" resultType="java.lang.Long">
+    select count(*) from role
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByCriteriaSelective" parameterType="map">
-    update merchant
+    update role
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.displayName != null">
-        display_name = #{record.displayName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.gmtCreate != null">
-        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.gmtModify != null">
-        gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.isDeleted != null">
-        is_deleted = #{record.isDeleted,jdbcType=CHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -176,54 +134,34 @@
     </if>
   </update>
   <update id="updateByCriteria" parameterType="map">
-    update merchant
-    set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      display_name = #{record.displayName,jdbcType=VARCHAR},
-      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
-      is_deleted = #{record.isDeleted,jdbcType=CHAR}
+    update role
+    set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.aperise.bean.Merchant">
-    update merchant
+  <update id="updateByPrimaryKeySelective" parameterType="com.aperise.bean.Role">
+    update role
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="displayName != null">
-        display_name = #{displayName,jdbcType=VARCHAR},
-      </if>
-      <if test="gmtCreate != null">
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDeleted != null">
-        is_deleted = #{isDeleted,jdbcType=CHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.aperise.bean.Merchant">
-    update merchant
-    set name = #{name,jdbcType=VARCHAR},
-      display_name = #{displayName,jdbcType=VARCHAR},
-      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
-      is_deleted = #{isDeleted,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.aperise.bean.Role">
+    update role
+    set name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectByCriteriaWithRowbounds" parameterType="com.aperise.bean.MerchantCriteria" resultMap="BaseResultMap">
+  <select id="selectByCriteriaWithRowbounds" parameterType="com.aperise.bean.RoleCriteria" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from merchant
+    from role
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

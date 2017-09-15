@@ -84,6 +84,9 @@
         <table schema="elec_shop" tableName="user" domainObjectName="User">
             <generatedKey column="id" sqlStatement="JDBC" identity="true" type=""/>
         </table>
+        <table schema="elec_shop" tableName="role" domainObjectName="Role">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true" type=""/>
+        </table>
     </context>
 
 </generatorConfiguration>

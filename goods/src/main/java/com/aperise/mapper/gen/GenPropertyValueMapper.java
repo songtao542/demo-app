@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface GenPropertyValueMapper {
-    long countByExample(PropertyValueCriteria example);
+    long countByCriteria(PropertyValueCriteria example);
 
-    int deleteByExample(PropertyValueCriteria example);
+    int deleteByCriteria(PropertyValueCriteria example);
 
     int deleteByPrimaryKey(Integer id);
 
@@ -17,15 +17,15 @@ public interface GenPropertyValueMapper {
 
     int insertSelective(PropertyValue record);
 
-    List<PropertyValue> selectByExampleWithRowbounds(PropertyValueCriteria example, RowBounds rowBounds);
+    List<PropertyValue> selectByCriteriaWithRowbounds(PropertyValueCriteria example, RowBounds rowBounds);
 
-    List<PropertyValue> selectByExample(PropertyValueCriteria example);
+    List<PropertyValue> selectByCriteria(PropertyValueCriteria example);
 
     PropertyValue selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") PropertyValue record, @Param("example") PropertyValueCriteria example);
+    int updateByCriteriaSelective(@Param("record") PropertyValue record, @Param("example") PropertyValueCriteria example);
 
-    int updateByExample(@Param("record") PropertyValue record, @Param("example") PropertyValueCriteria example);
+    int updateByCriteria(@Param("record") PropertyValue record, @Param("example") PropertyValueCriteria example);
 
     int updateByPrimaryKeySelective(PropertyValue record);
 
