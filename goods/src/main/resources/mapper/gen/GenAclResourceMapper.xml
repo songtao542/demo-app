@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.aperise.mapper.RoleMapper">
-  <resultMap id="BaseResultMap" type="com.aperise.bean.Role">
+<mapper namespace="com.aperise.mapper.AclResourceMapper">
+  <resultMap id="BaseResultMap" type="com.aperise.bean.AclResource">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="resource" jdbcType="VARCHAR" property="resource" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,15 +64,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name
+    id, resource
   </sql>
-  <select id="selectByCriteria" parameterType="com.aperise.bean.RoleCriteria" resultMap="BaseResultMap">
+  <select id="selectByCriteria" parameterType="com.aperise.bean.AclResourceCriteria" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from role
+    from acl_resource
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -83,50 +83,50 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from role
+    from acl_resource
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from role
+    delete from acl_resource
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByCriteria" parameterType="com.aperise.bean.RoleCriteria">
-    delete from role
+  <delete id="deleteByCriteria" parameterType="com.aperise.bean.AclResourceCriteria">
+    delete from acl_resource
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.aperise.bean.Role" useGeneratedKeys="true">
-    insert into role (name)
-    values (#{name,jdbcType=VARCHAR})
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.aperise.bean.AclResource" useGeneratedKeys="true">
+    insert into acl_resource (resource)
+    values (#{resource,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.aperise.bean.Role" useGeneratedKeys="true">
-    insert into role
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.aperise.bean.AclResource" useGeneratedKeys="true">
+    insert into acl_resource
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        name,
+      <if test="resource != null">
+        resource,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="resource != null">
+        #{resource,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByCriteria" parameterType="com.aperise.bean.RoleCriteria" resultType="java.lang.Long">
-    select count(*) from role
+  <select id="countByCriteria" parameterType="com.aperise.bean.AclResourceCriteria" resultType="java.lang.Long">
+    select count(*) from acl_resource
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByCriteriaSelective" parameterType="map">
-    update role
+    update acl_resource
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.resource != null">
+        resource = #{record.resource,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -134,34 +134,34 @@
     </if>
   </update>
   <update id="updateByCriteria" parameterType="map">
-    update role
+    update acl_resource
     set id = #{record.id,jdbcType=BIGINT},
-      name = #{record.name,jdbcType=VARCHAR}
+      resource = #{record.resource,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.aperise.bean.Role">
-    update role
+  <update id="updateByPrimaryKeySelective" parameterType="com.aperise.bean.AclResource">
+    update acl_resource
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="resource != null">
+        resource = #{resource,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.aperise.bean.Role">
-    update role
-    set name = #{name,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="com.aperise.bean.AclResource">
+    update acl_resource
+    set resource = #{resource,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectByCriteriaWithRowbounds" parameterType="com.aperise.bean.RoleCriteria" resultMap="BaseResultMap">
+  <select id="selectByCriteriaWithRowbounds" parameterType="com.aperise.bean.AclResourceCriteria" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from role
+    from acl_resource
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

@@ -3,7 +3,6 @@ package com.aperise;
 import com.aperise.MyUserDetailsService.MyGrantedAuthority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.security.access.ConfigAttribute;
@@ -15,12 +14,10 @@ import org.springframework.security.acls.model.AclCache;
 import org.springframework.security.acls.model.AclService;
 import org.springframework.security.acls.model.PermissionGrantingStrategy;
 import org.springframework.security.web.FilterInvocation;
-import org.springframework.security.web.access.intercept.DefaultFilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,19 +29,23 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
 
     protected static Logger logger = LoggerFactory.getLogger(MySecurityMetadataSource.class);
 
-    @Autowired
-    DataSource dataSource;
-
     private Map<RequestMatcher, Collection<ConfigAttribute>> requestMap;
 
+    @Autowired
     private AclService aclService;
+    @Autowired
     private LookupStrategy lookupStrategy;
+    @Autowired
     private AclCache aclCache;
+    @Autowired
     private PermissionGrantingStrategy permissionGrantingStrategy;
+    @Autowired
     private AclAuthorizationStrategy aclAuthorizationStrategy;
+    @Autowired
     private AuditLogger auditLogger;
 
 
+    @Autowired
     public MySecurityMetadataSource() {
         loadMetadataSource();
     }
@@ -54,7 +55,6 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
         logger.debug("---------------------getAttributes---------------------object=" + object);
         FilterInvocation filterInvocation;
         ArrayList<ConfigAttribute> configAttributes = new ArrayList<>();
-
 
 
         return null;
@@ -77,52 +77,8 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
         if (requestMap == null) {
             requestMap = new LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>>();
         }
-       AclService aclService = getAclService();
-       
-
-    }
 
 
-    public AclService getAclService() {
-        if (aclService == null) {
-            aclService = new JdbcMutableAclService(dataSource, getLookupStrategy(), getAclCache());
-        }
-        return aclService;
-    }
-
-    public LookupStrategy getLookupStrategy() {
-        if (lookupStrategy == null) {
-            lookupStrategy = new BasicLookupStrategy(dataSource, getAclCache(), getAclAuthorizationStrategy(), getAuditLogger());
-        }
-        return lookupStrategy;
-    }
-
-    public AclCache getAclCache() {
-        if (aclCache == null) {
-            aclCache = new SpringCacheBasedAclCache(new ConcurrentMapCache("acl_cache"), getPermissionGrantingStrategy(), getAclAuthorizationStrategy());
-        }
-        return aclCache;
-    }
-
-    public PermissionGrantingStrategy getPermissionGrantingStrategy() {
-        if (permissionGrantingStrategy == null) {
-            permissionGrantingStrategy = new DefaultPermissionGrantingStrategy(getAuditLogger());
-        }
-        return permissionGrantingStrategy;
-    }
-
-    public AclAuthorizationStrategy getAclAuthorizationStrategy() {
-        if (aclAuthorizationStrategy == null) {
-            aclAuthorizationStrategy = new AclAuthorizationStrategyImpl(new MyGrantedAuthority("admin"), new MyGrantedAuthority("admin"), new MyGrantedAuthority("admin"));
-        }
-        return aclAuthorizationStrategy;
-    }
-
-    public AuditLogger getAuditLogger() {
-        if (auditLogger == null) {
-            auditLogger = new ConsoleAuditLogger();
-        }
-        return auditLogger;
     }
 
 }

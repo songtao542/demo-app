@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <bean id="auditLogger" class="org.springframework.security.acls.domain.ConsoleAuditLogger"/>
+
+    <bean id="permissionGrantingStrategy"
+          class="org.springframework.security.acls.domain.DefaultPermissionGrantingStrategy">
+        <constructor-arg ref="auditLogger"/>
+    </bean>
+
+    <bean id="roleAdmin" class="org.springframework.security.core.authority.SimpleGrantedAuthority">
+        <constructor-arg type="java.lang.String" value="ROLE_ADMIN"/>
+    </bean>
+
+    <bean id="aclAuthorizationStrategy" class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+        <constructor-arg>
+            <list>
+                <ref bean="roleAdmin"/>
+                <ref bean="roleAdmin"/>
+                <ref bean="roleAdmin"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="aclCache" class="org.springframework.security.acls.domain.SpringCacheBasedAclCache">
+        <constructor-arg>
+            <bean class="org.springframework.cache.concurrent.ConcurrentMapCache">
+                <constructor-arg type="java.lang.String" value="acl_cache"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg ref="permissionGrantingStrategy"/>
+        <constructor-arg ref="aclAuthorizationStrategy"/>
+    </bean>
+
+    <bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
+        <constructor-arg ref="dataSource"/>
+        <constructor-arg ref="aclCache"/>
+        <constructor-arg ref="aclAuthorizationStrategy"/>
+        <constructor-arg ref="auditLogger"/>
+
+    </bean>
+
+    <bean id="aclService" class="org.springframework.security.acls.jdbc.JdbcMutableAclService">
+        <constructor-arg ref="dataSource"/>
+        <constructor-arg ref="lookupStrategy"/>
+        <constructor-arg ref="aclCache"/>
+        <property name="sidIdentityQuery" value="select max(id) from acl_sid"/>
+        <property name="classIdentityQuery" value="select max(id) from acl_class"/>
+    </bean>
+
+    <bean id="aclDeleteProductVoter" class="com.aperise.MyAclEntryVoter">
+        <constructor-arg ref="aclService"/>
+        <constructor-arg type="java.lang.String" value="ACL_DELETE_PRODUCT"/>
+        <constructor-arg>
+            <list>
+                <util:constant static-field="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION"/>
+                <util:constant static-field="org.springframework.security.acls.domain.BasePermission.DELETE"/>
+            </list>
+        </constructor-arg>
+        <property name="processDomainObjectClass" value="com.aperise.bean.Product"/>
+    </bean>
+
+    <bean id="aclAccessDecisionManager" class="com.aperise.MyAccessDecisionManager">
+        <constructor-arg>
+            <list>
+                <bean class="org.springframework.security.access.vote.RoleVoter"/>
+                <ref bean="aclDeleteProductVoter"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+
+    <security:global-method-security secured-annotations="enabled"
+                                     access-decision-manager-ref="aclAccessDecisionManager">
+
+    </security:global-method-security>
+
+
+</beans>

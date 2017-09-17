@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aperise.mapper.UserMapper">
     <resultMap id="UserBaseResultMap" type="com.aperise.bean.User">
-        <id column="id" jdbcType="INTEGER" property="id" />
+        <id column="user_id" jdbcType="INTEGER" property="id" />
         <result column="email" jdbcType="VARCHAR" property="email" />
         <result column="phone" jdbcType="VARCHAR" property="phone" />
         <result column="password" jdbcType="VARCHAR" property="password" />
-        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="user_name" jdbcType="VARCHAR" property="name" />
         <result column="nickname" jdbcType="VARCHAR" property="nickname" />
         <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
         <result column="sex" jdbcType="CHAR" property="sex" />
@@ -33,11 +33,10 @@
 
     <select id="selectByName" resultMap="UserBaseResultMap" >
         select
-        <include refid="Base_Column_List" />,
-        role.id as role_id,
-        role.name as role_name
+        user.id as user_id, email, phone, password, user.name as user_name, nickname, birthday, sex, height, weight, gmt_create, gmt_modify, is_deleted,
+        role.id as role_id, role.name as role_name
         from user LEFT JOIN (user_role,role) on (user.id=user_role.user_id and user_role.role_id=role.id)
-        where user.name = #{name,jdbcType=STRING}
+        where user.name = #{name,jdbcType=VARCHAR}
     </select>
 
 </mapper>

@@ -9,6 +9,7 @@ public class Result extends HashMap<String, Object> {
         int ERROR = 1001;
         int PARAMETER_MISSING = 1002;
         int PARAMETER_ERROR = 1003;
+        int DATA_NOT_EXIST = 1004;
     }
 
     private Result(int status, String errorMessage) {

@@ -1,75 +1,40 @@
 package com.aperise;
 
+import com.aperise.bean.AclResource;
+import com.aperise.bean.Product;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.SecurityFilterAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.access.AccessDecisionManager;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
+import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.RoleVoter;
-import org.springframework.security.acls.domain.SpringCacheBasedAclCache;
-import org.springframework.security.acls.model.AclCache;
-import org.springframework.security.acls.model.AclService;
-import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
+import org.springframework.security.acls.domain.*;
+import org.springframework.security.acls.jdbc.BasicLookupStrategy;
+import org.springframework.security.acls.jdbc.JdbcMutableAclService;
+import org.springframework.security.acls.jdbc.LookupStrategy;
+import org.springframework.security.acls.model.*;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import javax.servlet.http.HttpSession;
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
-@EnableGlobalMethodSecurity
+//@ImportResource(locations = {"application-context.xml", "security-config.xml"})
 @EnableWebSecurity
-@ImportResource(locations = {"application-context.xml"})
 @MapperScan({"com.aperise.mapper"})
-@Configuration
 public class MyConfiguration {
 
     protected static Logger logger = LoggerFactory.getLogger(MyConfiguration.class);
-    AccessDecisionManager accessDecisionManager;
-    SecurityAutoConfiguration securityAutoConfiguration;
-    RoleVoter roleVoter;
-    RoleHierarchy roleHierarchy;
-    HttpSession httpSession;
-    FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource;
-    AbstractSecurityInterceptor abstractSecurityInterceptor;
-    UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter;
-    SecurityFilterChain securityFilterChain;
-    SecurityContextHolderAwareRequestFilter securityContextHolderAwareRequestFilter;
-    SecurityFilterAutoConfiguration securityFilterAutoConfiguration;
-    AbstractSecurityWebApplicationInitializer abstractSecurityWebApplicationInitializer;
-    GlobalMethodSecurityConfiguration globalMethodSecurityConfiguration;
-    FilterSecurityInterceptor filterSecurityInterceptor;
-    AuthenticationEntryPoint authenticationEntryPoint;
-    GlobalAuthenticationConfigurerAdapter globalAuthenticationConfigurerAdapter;
-    WebSecurityConfigurerAdapter webSecurityConfigurerAdapter;
-    AclService aclService;
-
-//    @Bean
-//    public WebMvcConfigurer getWebMvcConfigurer() {
-//        return new WebConfig();
-//    }
-
 
     @Bean
     public FilterRegistrationBean corsFilter() {
@@ -87,61 +52,80 @@ public class MyConfiguration {
         return bean;
     }
 
-//    @Bean
-//    @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-//    public WebSecurityConfigurerAdapter getWebSecurityConfigurerAdapter() {
-//        logger.debug("---------------------getWebSecurityConfigurerAdapter---------------------");
-//        return new MyWebSecurityConfigurerAdapter();
-//    }
+    @Bean
+    public AclService getAclService(DataSource dataSource, LookupStrategy lookupStrategy, AclCache aclCache) {
+        JdbcMutableAclService service = new JdbcMutableAclService(dataSource, lookupStrategy, aclCache);
+        service.setSidIdentityQuery("select max(id) from acl_sid");
+        service.setClassIdentityQuery("select max(id) from acl_class");
+        return service;
+    }
 
-//    @Bean
-//    public AccessDecisionManager getAccessDecisionManager() {
-//        return new MyAccessDecisionManager();
-//    }
+    @Bean
+    public LookupStrategy getLookupStrategy(DataSource dataSource, AclCache aclCache, AclAuthorizationStrategy aclAuthorizationStrategy, AuditLogger auditLogger) {
+        return new BasicLookupStrategy(dataSource, aclCache, aclAuthorizationStrategy, auditLogger);
+    }
 
-    //    @Bean
-//    public UserDetailsService getUserDetailsService() {
-//        logger.debug("---------------------getUserDetailsService---------------------");
-//        return new MyUserDetailsService();
-//    }
+    @Bean
+    public AclCache getAclCache(PermissionGrantingStrategy permissionGrantingStrategy, AclAuthorizationStrategy aclAuthorizationStrategy) {
+        return new SpringCacheBasedAclCache(new ConcurrentMapCache("acl_cache"), permissionGrantingStrategy, aclAuthorizationStrategy);
+    }
+
+    @Bean
+    public PermissionGrantingStrategy getPermissionGrantingStrategy(AuditLogger auditLogger) {
+        return new DefaultPermissionGrantingStrategy(auditLogger);
+    }
+
+    @Bean
+    public AclAuthorizationStrategy getAclAuthorizationStrategy() {
+        return new AclAuthorizationStrategyImpl(new SimpleGrantedAuthority("admin"), new SimpleGrantedAuthority("admin"), new SimpleGrantedAuthority("admin"));
+    }
+
+    @Bean
+    public AuditLogger getAuditLogger() {
+        return new ConsoleAuditLogger();
+    }
+
+    @Bean("aclProductDeleteVoter")
+    public AccessDecisionVoter getAclProductDeleteVoter(AclService aclService) {
+        MyAclEntryVoter voter = new MyAclEntryVoter(aclService, "ACL_DELETE_PRODUCT", new Permission[]{
+                BasePermission.DELETE,
+                BasePermission.ADMINISTRATION
+        });
+        voter.setProcessDomainObjectClass(Product.class);
+        return voter;
+    }
+
+    @Bean("aclResourceReadVoter")
+    public AccessDecisionVoter getAclResourceReadVoter(AclService aclService) {
+        MyAclEntryVoter voter = new MyAclEntryVoter(aclService, "ACL_READ_RESOURCE", new Permission[]{
+                BasePermission.READ,
+                BasePermission.ADMINISTRATION
+        });
+        voter.setProcessDomainObjectClass(AclResource.class);
+        return voter;
+    }
+
+    @Bean("roleVote")
+    public AccessDecisionVoter getRoleVoter() {
+        return new RoleVoter();
+    }
 
 
-//    @Bean
-//    public AccessDecisionManager getAccessDecisionManager() {
-//        return new MyAccessDecisionManager();
-//    }
+    //public List<AccessDecisionVoter<?>> getAccessDecisionVoters(@Value("#{roleVote}") AccessDecisionVoter roleVoter, @Value("#{aclProductDeleteVoter}") AccessDecisionVoter aclProductDeleteVoter) {
+    @Bean("aclAccessDecisionVoters")
+    public List<AccessDecisionVoter<?>> getAccessDecisionVoters(@Qualifier("roleVote") AccessDecisionVoter roleVoter,
+                                                                @Qualifier("aclProductDeleteVoter") AccessDecisionVoter aclProductDeleteVoter,
+                                                                @Qualifier("aclResourceReadVoter") AccessDecisionVoter aclResourceReadVoter) {
+        List<AccessDecisionVoter<?>> voters = new ArrayList<>();
+        voters.add(roleVoter);
+        voters.add(aclProductDeleteVoter);
+        voters.add(aclResourceReadVoter);
+        return voters;
+    }
 
-//    @Bean
-//    public MyAuthenticationProvider springAuthenticationProvider() {
-//        return new MyAuthenticationProvider();
-//    }
+    @Bean("aclAccessDecisionManager")
+    public AccessDecisionManager getAccessDecisionManager(List<AccessDecisionVoter<?>> aclAccessDecisionVoters) {
+        return new MyAccessDecisionManager(aclAccessDecisionVoters);
+    }
 
-//    @Bean
-//    public AuthorizationServerConfigurer getAuthorizationServerConfigurer() {
-//        AuthorizationServerConfigurer configurer = new AuthorizationServerConfigurerAdapter() {
-//
-//        };
-//        return configurer;
-//    }
-
-//    @Bean
-//    public SqlSessionFactory getSqlSessionFactory() {
-//        try (InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml")) {
-//            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-//            return sqlSessionFactory;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-//
-//    @Bean
-//    public SqlSessionTemplate getSqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-//        if (sqlSessionFactory != null) {
-//            System.out.println("sqlSessionFactory1==" + sqlSessionFactory);
-//            return new SqlSessionTemplate(sqlSessionFactory);
-//        } else {
-//            return null;
-//        }
-//    }
 }

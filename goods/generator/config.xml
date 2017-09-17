@@ -87,6 +87,9 @@
         <table schema="elec_shop" tableName="role" domainObjectName="Role">
             <generatedKey column="id" sqlStatement="JDBC" identity="true" type=""/>
         </table>
+        <table schema="elec_shop" tableName="acl_resource" domainObjectName="AclResource">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true" type=""/>
+        </table>
     </context>
 
 </generatorConfiguration>

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,16 +21,16 @@ import java.util.Collection;
 
 @Component("userDetailsService")
 public class MyUserDetailsService implements UserDetailsService {
-    protected static Logger logger = LoggerFactory.getLogger(UserController.class);
+    protected static Logger logger = LoggerFactory.getLogger(MyUserDetailsService.class);
 
     @Autowired
     UserMapper userMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.debug("loadUserByUsername-->" + username);
+        logger.debug("loadUserByUsername username-->" + username);
         User user = userMapper.selectByName(username);
-        logger.debug("loadUserByUsername-->" + user);
+        logger.debug("loadUserByUsername user-->" + user);
         UserDetails details = new MyUserDetails(user);
         return details;
     }
@@ -47,7 +48,7 @@ public class MyUserDetailsService implements UserDetailsService {
         public Collection<? extends GrantedAuthority> getAuthorities() {
             ArrayList<GrantedAuthority> authorities = new ArrayList<>();
             String role = user.getRole() == null ? "ROLE_USER" : user.getRole().getName();
-            authorities.add(new MyGrantedAuthority(role));
+            authorities.add(new SimpleGrantedAuthority(role));
             return authorities;
         }
 
@@ -86,20 +87,23 @@ public class MyUserDetailsService implements UserDetailsService {
         public boolean isEnabled() {
             return true;
         }
-    }
-
-
-    public static class MyGrantedAuthority implements GrantedAuthority {
-
-        String authority;
-
-        public MyGrantedAuthority(String authority) {
-            this.authority = authority;
-        }
 
         @Override
-        public String getAuthority() {
-            return authority;
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("username:" + getUsername());
+            sb.append("password:" + getPassword());
+            Collection<? extends GrantedAuthority> authorities = getAuthorities();
+            if (authorities != null) {
+                sb.append("authorities:[");
+                for (GrantedAuthority auth : authorities) {
+                    sb.append(auth.getAuthority());
+                    sb.append(",");
+                }
+                sb.append("]");
+            }
+            return sb.toString();
         }
     }
+
 }
