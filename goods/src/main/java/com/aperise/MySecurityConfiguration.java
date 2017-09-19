@@ -1,28 +1,5 @@
 package com.aperise;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.concurrent.ConcurrentMapCache;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDecisionVoter;
-import org.springframework.security.access.vote.RoleVoter;
-import org.springframework.security.acls.AclEntryVoter;
-import org.springframework.security.acls.domain.*;
-import org.springframework.security.acls.jdbc.BasicLookupStrategy;
-import org.springframework.security.acls.jdbc.JdbcMutableAclService;
-import org.springframework.security.acls.jdbc.LookupStrategy;
-import org.springframework.security.acls.model.AclCache;
-import org.springframework.security.acls.model.AclService;
-import org.springframework.security.acls.model.Permission;
-import org.springframework.security.acls.model.PermissionGrantingStrategy;
-
-import javax.sql.DataSource;
-
-import com.aperise.MyUserDetailsService.MyGrantedAuthority;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class MySecurityConfiguration {
 
 //    public static final Permission[] permissions = new Permission[]{

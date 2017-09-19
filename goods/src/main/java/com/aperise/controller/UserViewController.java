@@ -37,7 +37,7 @@ public class UserViewController {
     @RequestMapping("/")
     public String index() {
         logger.debug("UserViewController xxxxxxxxxxxxxxxxxxx/index");
-        return "main";
+        return "index";
 //        return "redirect:http://localhost/front-end/index.html";
     }
 

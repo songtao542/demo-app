@@ -28,6 +28,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //super.configure(http);
+        http.csrf().disable();
         http.authorizeRequests()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
@@ -44,7 +45,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                         return object;
                     }
                 })
-                .antMatchers("/resources/**", "/css/*", "/js/*", "/img/*", "/signin", "/login", "/signup", "/user/add").permitAll()
+                .antMatchers("/resources/**", "/css/*", "/js/*", "/img/*","/", "/signin", "/login", "/signup", "/user/add").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

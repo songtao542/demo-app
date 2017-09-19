@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.aperise.bean.AclResource">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="resource" jdbcType="VARCHAR" property="resource" />
+    <result column="display" jdbcType="VARCHAR" property="display" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, resource
+    id, resource, display
   </sql>
   <select id="selectByCriteria" parameterType="com.aperise.bean.AclResourceCriteria" resultMap="BaseResultMap">
     select
@@ -97,8 +98,8 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.aperise.bean.AclResource" useGeneratedKeys="true">
-    insert into acl_resource (resource)
-    values (#{resource,jdbcType=VARCHAR})
+    insert into acl_resource (resource, display)
+    values (#{resource,jdbcType=VARCHAR}, #{display,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.aperise.bean.AclResource" useGeneratedKeys="true">
     insert into acl_resource
@@ -106,10 +107,16 @@
       <if test="resource != null">
         resource,
       </if>
+      <if test="display != null">
+        display,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="resource != null">
         #{resource,jdbcType=VARCHAR},
+      </if>
+      <if test="display != null">
+        #{display,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -128,6 +135,9 @@
       <if test="record.resource != null">
         resource = #{record.resource,jdbcType=VARCHAR},
       </if>
+      <if test="record.display != null">
+        display = #{record.display,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -136,7 +146,8 @@
   <update id="updateByCriteria" parameterType="map">
     update acl_resource
     set id = #{record.id,jdbcType=BIGINT},
-      resource = #{record.resource,jdbcType=VARCHAR}
+      resource = #{record.resource,jdbcType=VARCHAR},
+      display = #{record.display,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -147,12 +158,16 @@
       <if test="resource != null">
         resource = #{resource,jdbcType=VARCHAR},
       </if>
+      <if test="display != null">
+        display = #{display,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.aperise.bean.AclResource">
     update acl_resource
-    set resource = #{resource,jdbcType=VARCHAR}
+    set resource = #{resource,jdbcType=VARCHAR},
+      display = #{display,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByCriteriaWithRowbounds" parameterType="com.aperise.bean.AclResourceCriteria" resultMap="BaseResultMap">

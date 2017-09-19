@@ -43,6 +43,7 @@ public class ProductController {
 
 
     @Transactional
+    @Secured("ROLE_ADMIN")
     @RequestMapping("/product/category/add")
     public Result addCategory(String name, String displayName) {
         if (StringUtils.isEmpty(name)) {
@@ -125,16 +126,26 @@ public class ProductController {
         if (product == null) {
             return Result.ERROR(Result.Status.DATA_NOT_EXIST, "product is not exist");
         } else {
-            deleteProduct(product);
+            logger.debug("----------------delete the product----------------");
+            logger.debug("product=" + product);
+            logger.debug("----------------delete the product----------------");
         }
         return Result.OK("delete success");
     }
 
 
-    private void deleteProduct(Product product) {
-        logger.debug("----------------delete the product----------------");
-        logger.debug("product=" + product);
-        logger.debug("----------------delete the product----------------");
+    @Secured({"ROLE_ADMIN", "ACL_QUERY_PRODUCT"})
+    @RequestMapping("/product/query")
+    public Result queryProduct(Integer id) {
+        if (null == id) {
+            return Result.ERROR(Result.Status.PARAMETER_MISSING, "id can't be empty!");
+        }
+        Product product = productMapper.selectByPrimaryKey(id);
+        if (product == null) {
+            return Result.ERROR(Result.Status.DATA_NOT_EXIST, "product is not exist");
+        } else {
+            return Result.OK(product);
+        }
     }
 
 }

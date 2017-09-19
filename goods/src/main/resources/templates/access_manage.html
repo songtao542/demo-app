@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
+
+    <!-- Custom styles for this template -->
+    <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet"/>
+</head>
+<body class="full-m-p-0">
+
+<div class="full-m-p-0">
+
+    <!--${#lists.size(list)}-->
+    <!--th:each="i:${#numbers.sequence(0,3)}"-->
+
+    <iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>
+
+    <div class="p-3" th:each="access : ${accesses}">
+        <h5 th:text="'权限 >'+ ${access.display}">权限 > display </h5>
+        <!--action="/url/access" th:action="@{/url/access}" method="post"-->
+        <form onsubmit="submit()" target="nm_iframe">
+            <table class="table table-bordered table-borderless">
+                <tbody th:with="size1=${#lists.size(access.grantedUsers)},size2=${#lists.size(access.ungrantedUsers)}">
+                <th:block th:each="i:${#numbers.sequence(0,size1+size2-1,3)}">
+                    <tr>
+                        <th:block th:each="j:${#numbers.sequence(0,2)}">
+                            <th:block th:if="${i lt size1}">
+                                <td th:with="name=${access.grantedUsers[i*3+j].name},id=${access.grantedUsers[i*3+j].id}">
+                                    <label th:id="${access.resource}" class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" checked="checked" name="id"
+                                               th:value="${id}"/>
+                                        <span class="custom-control-indicator"></span>
+                                        <!--<span class="custom-control-description" th:text="${i}+' : '+${j}"></span>-->
+                                        <span class="custom-control-description"
+                                              th:text="${name}">display</span>
+                                    </label>
+                                </td>
+                            </th:block>
+                            <th:block th:if="${size1 ge i and i lt size2}">
+                                <td th:with="name=${access.ungrantedUsers[i*3+j-size1].name},id=${access.ungrantedUsers[i*3+j-size1].id}">
+                                    <label th:id="${access.resource}" class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="id"
+                                               th:value="${id}"/>
+                                        <span class="custom-control-indicator"></span>
+                                        <!--<span class="custom-control-description" th:text="${i}+' : '+${j}"></span>-->
+                                        <span class="custom-control-description"
+                                              th:text="${name}">display</span>
+                                    </label>
+                                </td>
+                            </th:block>
+                        </th:block>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+            <button type="submit" th:value="${access.resource}" onclick="commit(this)"
+                    class="btn btn-success col-md-12">
+                修改
+            </button>
+        </form>
+    </div>
+</div>
+
+
+<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"-->
+<!--integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"-->
+<!--crossorigin="anonymous"></script>-->
+<script src="../static/js/vendor/jquery-slim.min.js" th:src="@{/js/vendor/jquery-slim.min.js}" ></script>
+<script src="../static/js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}" ></script>
+<script src="../static/js/access_manage.js" th:src="@{/js/access_manage.js}"></script>
+<script src="../static/js/vendor/popper.min.js" th:src="@{/js/vendor/popper.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../static/js/ie10-viewport-bug-workaround.js" th:src="@{/js/ie10-viewport-bug-workaround.js}"></script>
+</body>
+</html>

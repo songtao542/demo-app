@@ -53,7 +53,7 @@
         <property name="classIdentityQuery" value="select max(id) from acl_class"/>
     </bean>
 
-    <bean id="aclDeleteProductVoter" class="com.aperise.MyAclEntryVoter">
+    <bean id="aclDeleteProductVoter" class="com.aperise.acl.MyAclEntryVoter">
         <constructor-arg ref="aclService"/>
         <constructor-arg type="java.lang.String" value="ACL_DELETE_PRODUCT"/>
         <constructor-arg>

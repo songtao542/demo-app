@@ -1,13 +1,17 @@
 package com.aperise;
 
+import com.aperise.acl.AclResourceService;
+import com.aperise.acl.AclResourceServiceImpl;
+import com.aperise.acl.MyAclEntryVoter;
+import com.aperise.acl.MyUrlAclEntryVoter;
 import com.aperise.bean.AclResource;
 import com.aperise.bean.Product;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cache.Cache;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.AccessDecisionManager;
@@ -24,7 +28,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +56,7 @@ public class MyConfiguration {
     }
 
     @Bean
-    public AclService getAclService(DataSource dataSource, LookupStrategy lookupStrategy, AclCache aclCache) {
+    public AclService getAclService(DataSource dataSource, LookupStrategy lookupStrategy, @Qualifier("aclCache") AclCache aclCache) {
         JdbcMutableAclService service = new JdbcMutableAclService(dataSource, lookupStrategy, aclCache);
         service.setSidIdentityQuery("select max(id) from acl_sid");
         service.setClassIdentityQuery("select max(id) from acl_class");
@@ -61,11 +64,11 @@ public class MyConfiguration {
     }
 
     @Bean
-    public LookupStrategy getLookupStrategy(DataSource dataSource, AclCache aclCache, AclAuthorizationStrategy aclAuthorizationStrategy, AuditLogger auditLogger) {
+    public LookupStrategy getLookupStrategy(DataSource dataSource, @Qualifier("aclCache") AclCache aclCache, AclAuthorizationStrategy aclAuthorizationStrategy, AuditLogger auditLogger) {
         return new BasicLookupStrategy(dataSource, aclCache, aclAuthorizationStrategy, auditLogger);
     }
 
-    @Bean
+    @Bean("aclCache")
     public AclCache getAclCache(PermissionGrantingStrategy permissionGrantingStrategy, AclAuthorizationStrategy aclAuthorizationStrategy) {
         return new SpringCacheBasedAclCache(new ConcurrentMapCache("acl_cache"), permissionGrantingStrategy, aclAuthorizationStrategy);
     }
@@ -77,7 +80,7 @@ public class MyConfiguration {
 
     @Bean
     public AclAuthorizationStrategy getAclAuthorizationStrategy() {
-        return new AclAuthorizationStrategyImpl(new SimpleGrantedAuthority("admin"), new SimpleGrantedAuthority("admin"), new SimpleGrantedAuthority("admin"));
+        return new AclAuthorizationStrategyImpl(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
     @Bean
@@ -95,11 +98,20 @@ public class MyConfiguration {
         return voter;
     }
 
+    @Bean("aclResourceCache")
+    public Cache getAclResourceCache() {
+        return new ConcurrentMapCache("acl_resource_cache");
+    }
+
+    @Bean("aclResourceService")
+    public AclResourceService getAclResourceService(DataSource dataSource, @Qualifier("aclResourceCache") Cache cache) {
+        return new AclResourceServiceImpl(dataSource, cache);
+    }
+
     @Bean("aclResourceReadVoter")
-    public AccessDecisionVoter getAclResourceReadVoter(AclService aclService) {
-        MyAclEntryVoter voter = new MyAclEntryVoter(aclService, "ACL_READ_RESOURCE", new Permission[]{
-                BasePermission.READ,
-                BasePermission.ADMINISTRATION
+    public AccessDecisionVoter getAclResourceReadVoter(AclResourceService aclResourceService, AclService aclService) {
+        MyUrlAclEntryVoter voter = new MyUrlAclEntryVoter(aclResourceService, aclService, "ACL_READ_RESOURCE", new Permission[]{
+                BasePermission.READ
         });
         voter.setProcessDomainObjectClass(AclResource.class);
         return voter;

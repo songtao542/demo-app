@@ -23,6 +23,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 //@Component("accessDecisionManager")
 public class MyAccessDecisionManager extends AffirmativeBased {
@@ -47,6 +53,10 @@ public class MyAccessDecisionManager extends AffirmativeBased {
         logger.debug("-----------------------------------------------");
         logger.debug("authentication configAttributes=" + configAttributes);
         logger.debug("-----------------decide access-----------------");
+
+        ServletRequestAttributes attrs = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+        logger.debug("attrs=================" + attrs.getRequest().getRequestURI());
+        logger.debug("attrs=================" + attrs.getRequest().getRequestURL());
         super.decide(authentication, object, configAttributes);
     }
 

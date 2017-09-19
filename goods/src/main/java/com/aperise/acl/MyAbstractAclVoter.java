@@ -1,20 +1,4 @@
-package com.aperise;
-
-/*
- * Copyright 2004, 2005, 2006 Acegi Technology Pty Limited
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+package com.aperise.acl;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
@@ -88,27 +72,18 @@ import java.util.List;
  *
  * @author Ben Alex
  */
-public class MyAclEntryVoter extends AbstractAclVoter {
-    // ~ Static fields/initializers
-    // =====================================================================================
+public class MyAbstractAclVoter extends AbstractAclVoter {
+    private static final Log logger = LogFactory.getLog(MyAbstractAclVoter.class);
 
-    private static final Log logger = LogFactory.getLog(MyAclEntryVoter.class);
-
-    // ~ Instance fields
-    // ================================================================================================
-
-    private AclService aclService;
     private ObjectIdentityRetrievalStrategy objectIdentityRetrievalStrategy = new ObjectIdentityRetrievalStrategyImpl();
     private SidRetrievalStrategy sidRetrievalStrategy = new SidRetrievalStrategyImpl();
-    private String internalMethod;
-    private String processConfigAttribute;
+
+    private AclService aclService;
     private List<Permission> requirePermission;
+    private String processConfigAttribute;
+    private String internalMethod;
 
-    // ~ Constructors
-    // ===================================================================================================
-
-    public MyAclEntryVoter(AclService aclService, String processConfigAttribute,
-                           Permission[] requirePermission) {
+    public MyAbstractAclVoter(AclService aclService, String processConfigAttribute, Permission[] requirePermission) {
         Assert.notNull(processConfigAttribute, "A processConfigAttribute is mandatory");
         Assert.notNull(aclService, "An AclService is mandatory");
 
@@ -116,53 +91,9 @@ public class MyAclEntryVoter extends AbstractAclVoter {
             throw new IllegalArgumentException(
                     "One or more requirePermission entries is mandatory");
         }
-
         this.aclService = aclService;
         this.processConfigAttribute = processConfigAttribute;
         this.requirePermission = Arrays.asList(requirePermission);
-    }
-
-    // ~ Methods
-    // ========================================================================================================
-
-    /**
-     * Optionally specifies a method of the domain object that will be used to obtain a
-     * contained domain object. That contained domain object will be used for the ACL
-     * evaluation. This is useful if a domain object contains a parent that an ACL
-     * evaluation should be targeted for, instead of the child domain object (which
-     * perhaps is being created and as such does not yet have any ACL permissions)
-     *
-     * @return <code>null</code> to use the domain object, or the name of a method (that
-     * requires no arguments) that should be invoked to obtain an <code>Object</code>
-     * which will be the domain object used for ACL evaluation
-     */
-    protected String getInternalMethod() {
-        return internalMethod;
-    }
-
-    public void setInternalMethod(String internalMethod) {
-        this.internalMethod = internalMethod;
-    }
-
-    protected String getProcessConfigAttribute() {
-        return processConfigAttribute;
-    }
-
-    public void setObjectIdentityRetrievalStrategy(
-            ObjectIdentityRetrievalStrategy objectIdentityRetrievalStrategy) {
-        Assert.notNull(objectIdentityRetrievalStrategy,
-                "ObjectIdentityRetrievalStrategy required");
-        this.objectIdentityRetrievalStrategy = objectIdentityRetrievalStrategy;
-    }
-
-    public void setSidRetrievalStrategy(SidRetrievalStrategy sidRetrievalStrategy) {
-        Assert.notNull(sidRetrievalStrategy, "SidRetrievalStrategy required");
-        this.sidRetrievalStrategy = sidRetrievalStrategy;
-    }
-
-    public boolean supports(ConfigAttribute attribute) {
-        return (attribute.getAttribute() != null)
-                && attribute.getAttribute().equals(getProcessConfigAttribute());
     }
 
     public int vote(Authentication authentication, MethodInvocation object,
@@ -220,8 +151,7 @@ public class MyAclEntryVoter extends AbstractAclVoter {
             }
 
             // Obtain the OID applicable to the domain object
-            ObjectIdentity objectIdentity = objectIdentityRetrievalStrategy
-                    .getObjectIdentity(domainObject);
+            ObjectIdentity objectIdentity = objectIdentityRetrievalStrategy.getObjectIdentity(domainObject);
 
             // Obtain the SIDs applicable to the principal
             List<Sid> sids = sidRetrievalStrategy.getSids(authentication);
@@ -271,40 +201,39 @@ public class MyAclEntryVoter extends AbstractAclVoter {
         return ACCESS_ABSTAIN;
     }
 
-    @Override
-    protected Object getDomainObjectInstance(MethodInvocation invocation) {
-        Object[] args;
-        Class<?>[] params;
-
-        params = invocation.getMethod().getParameterTypes();
-        args = invocation.getArguments();
-
-        for (int i = 0; i < params.length; i++) {
-            if (getProcessDomainObjectClass().isAssignableFrom(params[i])) {
-                return args[i];
-            } else if (Integer.class.isAssignableFrom(params[i])) {
-                try {
-                    Object obj = getProcessDomainObjectClass().newInstance();
-                    Method method = getProcessDomainObjectClass().getMethod("setId", new Class[]{Integer.class});
-                    method.invoke(obj, args);
-                    return obj;
-                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            } else if (Long.class.isAssignableFrom(params[i])) {
-                try {
-                    Object obj = getProcessDomainObjectClass().newInstance();
-                    Method method = getProcessDomainObjectClass().getMethod("setId", new Class[]{Long.class});
-                    method.invoke(obj, args);
-                    return obj;
-                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        throw new AuthorizationServiceException("MethodInvocation: " + invocation
-                + " did not provide any argument of type: " + getProcessDomainObjectClass());
+    protected String getProcessConfigAttribute() {
+        return processConfigAttribute;
     }
-}
 
+    public boolean supports(ConfigAttribute attribute) {
+        return (attribute.getAttribute() != null)
+                && attribute.getAttribute().equals(getProcessConfigAttribute());
+    }
+
+    public void setObjectIdentityRetrievalStrategy(ObjectIdentityRetrievalStrategy objectIdentityRetrievalStrategy) {
+        Assert.notNull(objectIdentityRetrievalStrategy, "ObjectIdentityRetrievalStrategy required");
+        this.objectIdentityRetrievalStrategy = objectIdentityRetrievalStrategy;
+    }
+
+    public void setSidRetrievalStrategy(SidRetrievalStrategy sidRetrievalStrategy) {
+        Assert.notNull(sidRetrievalStrategy, "SidRetrievalStrategy required");
+        this.sidRetrievalStrategy = sidRetrievalStrategy;
+    }
+
+
+    /**
+     * Optionally specifies a method of the domain object that will be used to obtain a
+     * contained domain object. That contained domain object will be used for the ACL
+     * evaluation. This is useful if a domain object contains a parent that an ACL
+     * evaluation should be targeted for, instead of the child domain object (which
+     * perhaps is being created and as such does not yet have any ACL permissions)
+     * <p>
+     * null to use the domain object, or the name of a method (that
+     * requires no arguments) that should be invoked to obtain an <code>Object</code>
+     * which will be the domain object used for ACL evaluation
+     */
+    public void setInternalMethod(String internalMethod) {
+        this.internalMethod = internalMethod;
+    }
+
+}

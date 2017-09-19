@@ -7,6 +7,8 @@ public class AclResource implements Serializable {
 
     private String resource;
 
+    private String display;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -25,6 +27,14 @@ public class AclResource implements Serializable {
         this.resource = resource == null ? null : resource.trim();
     }
 
+    public String getDisplay() {
+        return display;
+    }
+
+    public void setDisplay(String display) {
+        this.display = display == null ? null : display.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -38,7 +48,8 @@ public class AclResource implements Serializable {
         }
         AclResource other = (AclResource) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getResource() == null ? other.getResource() == null : this.getResource().equals(other.getResource()));
+            && (this.getResource() == null ? other.getResource() == null : this.getResource().equals(other.getResource()))
+            && (this.getDisplay() == null ? other.getDisplay() == null : this.getDisplay().equals(other.getDisplay()));
     }
 
     @Override
@@ -47,6 +58,7 @@ public class AclResource implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getResource() == null) ? 0 : getResource().hashCode());
+        result = prime * result + ((getDisplay() == null) ? 0 : getDisplay().hashCode());
         return result;
     }
 
@@ -58,6 +70,7 @@ public class AclResource implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", resource=").append(resource);
+        sb.append(", display=").append(display);
         sb.append("]");
         return sb.toString();
     }
