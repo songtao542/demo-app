@@ -42,7 +42,7 @@ public class UrlAccessViewController {
     @Secured("ROLE_ADMIN")
     @RequestMapping("/view/access/manage")
     public String accessManage(HttpServletResponse response, Model model) {
-        response.setHeader("X-Frame-Options", "SAMEORIGIN");
+        //response.setHeader("X-Frame-Options", "SAMEORIGIN");
         List<Access> accesses = accessService.getAccesses();
         model.addAttribute("size", accesses.size());
         model.addAttribute("accesses", accesses);

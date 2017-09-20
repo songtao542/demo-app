@@ -14,51 +14,26 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class UserViewController {
+    protected static Logger logger = LoggerFactory.getLogger(UserViewController.class);
 
     @Autowired
     UserMapper userMapper;
-    protected static Logger logger = LoggerFactory.getLogger(UserViewController.class);
+
 
     @ModelAttribute
-    public void setModelAttr(Model model){
-         model.addAttribute("attr","test attr");
+    public void setModelAttr(Model model) {
+        model.addAttribute("attr", "test attr");
     }
 
     @ModelAttribute
-    public String setModelAttr1(){
+    public String setModelAttr1() {
         return "test attr1";
     }
 
     @ModelAttribute("attr2")
-    public String setModelAttr2(){
+    public String setModelAttr2() {
         return "test attr2";
     }
-
-    @RequestMapping("/")
-    public String index() {
-        logger.debug("UserViewController xxxxxxxxxxxxxxxxxxx/index");
-        return "index";
-//        return "redirect:http://localhost/front-end/index.html";
-    }
-
-    @RequestMapping("/login")
-    public String login() {
-        logger.debug("UserViewController *********************** /login");
-        return "sign_in";
-    }
-
-    @RequestMapping("/signin")
-    public String signin(HttpServletRequest request) {
-        logger.debug("UserViewController -----------------------/request:" + request.getMethod() + "  -- " + request.getRequestURI() + "  -- " + request.getQueryString());
-        return "sign_in";
-    }
-
-    @RequestMapping("/signup")
-    public String signup() {
-        logger.debug("UserViewController /signup");
-        return "sign_up";
-    }
-
 
     @RequestMapping("/view/user/add_success")
     public String addUserSuccess() {

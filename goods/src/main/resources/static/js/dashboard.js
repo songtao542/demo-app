@@ -27,14 +27,7 @@ function createIFrame(src) {
     div.setAttribute('class', 'full-m-p-0');
     div.appendChild(frm);
 
-    // $.ajax({
-    //     type: "POST",
-    //     url: "",
-    //     data: "",
-    //     success: function (msg) {
-    //         console.log("post success--->" + msg);
-    //     }
-    // });
+    
 
     return document.getElementById('frame_container').appendChild(div);
 }

@@ -41,7 +41,16 @@ CREATE TABLE acl_entry (
 
 CREATE TABLE acl_resource (
    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   resource VARCHAR(100) NOT NULL
+   resource VARCHAR(100) NOT NULL,
+   display VARCHAR(100) NOT NULL,
+   type VARCHAR(100) NOT NULL,
+   group_id BIGINT UNSIGNED,
+   CONSTRAINT fk_acl_resource_group FOREIGN KEY (group_id) REFERENCES acl_resource_group (id)
+)ENGINE=InnoDB;
+
+CREATE TABLE acl_resource_group (
+   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   display VARCHAR(100) NOT NULL
 )ENGINE=InnoDB;
 
 CREATE TABLE role (
@@ -56,3 +65,4 @@ CREATE TABLE user_role (
    CONSTRAINT fk_user_role_user FOREIGN KEY (user_id) REFERENCES user (id),
    CONSTRAINT fk_user_role_role FOREIGN KEY (role_id) REFERENCES role (id)
 )ENGINE=InnoDB;
+

@@ -7,4 +7,11 @@
         from acl_resource
         where resource = #{resource,jdbcType=VARCHAR}
     </select>
+
+    <select id="selectByType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from acl_resource
+        where type = #{type,jdbcType=VARCHAR}
+    </select>
 </mapper>

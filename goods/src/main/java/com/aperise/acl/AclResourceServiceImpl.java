@@ -29,8 +29,8 @@ public class AclResourceServiceImpl implements AclResourceService {
 
     @Override
     public AclResource readBySource(final String source) {
-        if (cache.get(source) != null) {
-            return (AclResource) cache.get(source);
+        if (cache.get(source) != null && cache.get(source).get() != null) {
+            return (AclResource) cache.get(source).get();
         }
 
         List<AclResource> result = jdbcTemplate.query(selectAclResource,

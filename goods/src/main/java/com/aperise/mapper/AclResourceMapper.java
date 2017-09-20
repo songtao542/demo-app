@@ -10,5 +10,7 @@ import java.util.List;
 
 public interface AclResourceMapper extends GenAclResourceMapper {
     AclResource selectByResource(@Param("resource") String resource);
-    
+
+    List<AclResource> selectByType(@Param("type") String type);
+
 }

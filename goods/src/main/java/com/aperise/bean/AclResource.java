@@ -9,6 +9,20 @@ public class AclResource implements Serializable {
 
     private String display;
 
+    private String type;
+
+    private Long groupId;
+
+    private String groupName;
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -35,6 +49,22 @@ public class AclResource implements Serializable {
         this.display = display == null ? null : display.trim();
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -49,7 +79,10 @@ public class AclResource implements Serializable {
         AclResource other = (AclResource) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getResource() == null ? other.getResource() == null : this.getResource().equals(other.getResource()))
-            && (this.getDisplay() == null ? other.getDisplay() == null : this.getDisplay().equals(other.getDisplay()));
+            && (this.getDisplay() == null ? other.getDisplay() == null : this.getDisplay().equals(other.getDisplay()))
+            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
+            && (this.getGroupName() == null ? other.getGroupName() == null : this.getGroupName().equals(other.getGroupName()))
+            && (this.getGroupId() == null ? other.getGroupId() == null : this.getGroupId().equals(other.getGroupId()));
     }
 
     @Override
@@ -59,6 +92,9 @@ public class AclResource implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getResource() == null) ? 0 : getResource().hashCode());
         result = prime * result + ((getDisplay() == null) ? 0 : getDisplay().hashCode());
+        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
+        result = prime * result + ((getGroupId() == null) ? 0 : getGroupId().hashCode());
+        result = prime * result + ((getGroupName() == null) ? 0 : getGroupName().hashCode());
         return result;
     }
 
@@ -71,6 +107,9 @@ public class AclResource implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", resource=").append(resource);
         sb.append(", display=").append(display);
+        sb.append(", type=").append(type);
+        sb.append(", groupId=").append(groupId);
+        sb.append(", groupName=").append(groupName);
         sb.append("]");
         return sb.toString();
     }

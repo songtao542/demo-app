@@ -59,6 +59,8 @@ public class MyUrlAclEntryVoter extends MyAbstractAclVoter {
     protected Object getDomainObjectInstance(MethodInvocation invocation) {
         try {
             ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            if (logger.isDebugEnabled())
+                logger.debug("get DomainObjectInstance by url:"+attrs.getRequest().getRequestURI());
             return aclResourceService.readBySource(attrs.getRequest().getRequestURI());
         } catch (Exception e) {
             e.printStackTrace();

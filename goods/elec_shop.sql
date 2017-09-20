@@ -35,7 +35,7 @@ CREATE TABLE `acl_class` (
   `class` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_acl_class` (`class`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `acl_class` (
 
 LOCK TABLES `acl_class` WRITE;
 /*!40000 ALTER TABLE `acl_class` DISABLE KEYS */;
-INSERT INTO `acl_class` VALUES (1,'url-pattern');
+INSERT INTO `acl_class` VALUES (6,'com.aperise.bean.AclResource');
 /*!40000 ALTER TABLE `acl_class` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,7 +69,7 @@ CREATE TABLE `acl_entry` (
   KEY `fk_acl_entry_acl` (`sid`),
   CONSTRAINT `fk_acl_entry_acl` FOREIGN KEY (`sid`) REFERENCES `acl_sid` (`id`),
   CONSTRAINT `fk_acl_entry_object` FOREIGN KEY (`acl_object_identity`) REFERENCES `acl_object_identity` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,7 +78,7 @@ CREATE TABLE `acl_entry` (
 
 LOCK TABLES `acl_entry` WRITE;
 /*!40000 ALTER TABLE `acl_entry` DISABLE KEYS */;
-INSERT INTO `acl_entry` VALUES (1,1,1,1,16,1,0,0),(2,2,1,1,16,1,0,0);
+INSERT INTO `acl_entry` VALUES (7,8,0,1,16,1,0,0),(10,7,0,8,1,1,0,0),(11,7,1,7,1,1,0,0),(12,7,2,1,16,1,0,0);
 /*!40000 ALTER TABLE `acl_entry` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +103,7 @@ CREATE TABLE `acl_object_identity` (
   CONSTRAINT `fk_acl_object_identity_class` FOREIGN KEY (`object_id_class`) REFERENCES `acl_class` (`id`),
   CONSTRAINT `fk_acl_object_identity_owner` FOREIGN KEY (`owner_sid`) REFERENCES `acl_sid` (`id`),
   CONSTRAINT `fk_acl_object_identity_parent` FOREIGN KEY (`parent_object`) REFERENCES `acl_object_identity` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,7 +112,7 @@ CREATE TABLE `acl_object_identity` (
 
 LOCK TABLES `acl_object_identity` WRITE;
 /*!40000 ALTER TABLE `acl_object_identity` DISABLE KEYS */;
-INSERT INTO `acl_object_identity` VALUES (1,1,1,NULL,NULL,0),(2,1,2,NULL,NULL,0);
+INSERT INTO `acl_object_identity` VALUES (7,6,9,NULL,1,1),(8,6,10,NULL,1,1);
 /*!40000 ALTER TABLE `acl_object_identity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,8 +126,13 @@ DROP TABLE IF EXISTS `acl_resource`;
 CREATE TABLE `acl_resource` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `resource` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `display` varchar(50) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `group_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_acl_resource_group` (`group_id`),
+  CONSTRAINT `fk_acl_resource_group` FOREIGN KEY (`group_id`) REFERENCES `acl_resource_group` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,8 +141,31 @@ CREATE TABLE `acl_resource` (
 
 LOCK TABLES `acl_resource` WRITE;
 /*!40000 ALTER TABLE `acl_resource` DISABLE KEYS */;
-INSERT INTO `acl_resource` VALUES (1,'/user/info'),(2,'/user/list');
+INSERT INTO `acl_resource` VALUES (9,'/user/info','查看用户信息','url',NULL),(10,'/user/list','查看用户列表','url',NULL);
 /*!40000 ALTER TABLE `acl_resource` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `acl_resource_group`
+--
+
+DROP TABLE IF EXISTS `acl_resource_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `acl_resource_group` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `display` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `acl_resource_group`
+--
+
+LOCK TABLES `acl_resource_group` WRITE;
+/*!40000 ALTER TABLE `acl_resource_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `acl_resource_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -153,7 +181,7 @@ CREATE TABLE `acl_sid` (
   `sid` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_acl_sid` (`sid`,`principal`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,7 +190,7 @@ CREATE TABLE `acl_sid` (
 
 LOCK TABLES `acl_sid` WRITE;
 /*!40000 ALTER TABLE `acl_sid` DISABLE KEYS */;
-INSERT INTO `acl_sid` VALUES (1,0,'ROLE_ADMIN'),(2,0,'ROLE_USER');
+INSERT INTO `acl_sid` VALUES (7,1,'1'),(8,1,'2'),(1,0,'ROLE_ADMIN');
 /*!40000 ALTER TABLE `acl_sid` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -455,7 +483,7 @@ CREATE TABLE `user` (
   `gmt_modify` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_deleted` char(1) DEFAULT 'n' COMMENT '是否删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -506,4 +534,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-15 18:21:45
+-- Dump completed on 2017-09-20 15:48:04

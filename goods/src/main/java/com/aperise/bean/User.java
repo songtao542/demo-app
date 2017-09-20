@@ -170,6 +170,7 @@ public class User implements Serializable {
             && (this.getWeight() == null ? other.getWeight() == null : this.getWeight().equals(other.getWeight()))
             && (this.getGmtCreate() == null ? other.getGmtCreate() == null : this.getGmtCreate().equals(other.getGmtCreate()))
             && (this.getGmtModify() == null ? other.getGmtModify() == null : this.getGmtModify().equals(other.getGmtModify()))
+            && (this.getRole() == null ? other.getRole() == null : this.getRole().equals(other.getRole()))
             && (this.getIsDeleted() == null ? other.getIsDeleted() == null : this.getIsDeleted().equals(other.getIsDeleted()));
     }
 
@@ -190,6 +191,7 @@ public class User implements Serializable {
         result = prime * result + ((getGmtCreate() == null) ? 0 : getGmtCreate().hashCode());
         result = prime * result + ((getGmtModify() == null) ? 0 : getGmtModify().hashCode());
         result = prime * result + ((getIsDeleted() == null) ? 0 : getIsDeleted().hashCode());
+        result = prime * result + ((getRole() == null) ? 0 : getRole().hashCode());
         return result;
     }
 
@@ -212,6 +214,7 @@ public class User implements Serializable {
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append(", gmtModify=").append(gmtModify);
         sb.append(", isDeleted=").append(isDeleted);
+        sb.append(", role=").append(role);
         sb.append("]");
         return sb.toString();
     }

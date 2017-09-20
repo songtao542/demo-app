@@ -94,7 +94,7 @@ public class UrlAccessController {
     @Secured("ROLE_ADMIN")
     @RequestMapping("/url/access")
     public Result configUrlAccess(HttpServletResponse response, String url, String permission) {
-        response.setHeader("X-Frame-Options", "SAMEORIGIN");
+        //response.setHeader("X-Frame-Options", "SAMEORIGIN");
         logger.debug("/url/access permission=" + permission + "  url=" + url);
         if (StringUtils.isEmpty(permission)) {
             return Result.ERROR(Result.Status.PARAMETER_MISSING, "permission Json can't be empty!");
@@ -124,14 +124,26 @@ public class UrlAccessController {
             for (Permission p : permissions) {
                 if (p.granted) {
                     ObjectIdentity oid = new ObjectIdentityImpl(AclResource.class, resource.getId());
-                    MutableAcl acl = aclService.createAcl(oid);
+                    MutableAcl acl;
+                    try {
+                        acl = (MutableAcl) aclService.readAclById(oid);
+                    } catch (NotFoundException e) {
+                        acl = aclService.createAcl(oid);
+                    }
+
                     acl.insertAce(0, BasePermission.READ,
                             new PrincipalSid(String.valueOf(p.userId)), true);
                     aclService.updateAcl(acl);
                 } else {
                     boolean changed = false;
                     ObjectIdentity oid = new ObjectIdentityImpl(AclResource.class, resource.getId());
-                    MutableAcl acl = (MutableAcl) aclService.readAclById(oid);
+                    MutableAcl acl;
+                    try {
+                        acl = (MutableAcl) aclService.readAclById(oid);
+                    } catch (NotFoundException e) {
+                        continue;
+                    }
+
                     List<AccessControlEntry> aces = acl.getEntries();
                     if (aces != null) {
                         PrincipalSid sid = new PrincipalSid(String.valueOf(p.userId));
@@ -178,6 +190,7 @@ public class UrlAccessController {
         res = new AclResource();
         res.setResource(resource);
         res.setDisplay(display);
+        res.setType("url");
 
         aclResourceMapper.insertSelective(res);
 
@@ -212,6 +225,11 @@ public class UrlAccessController {
 
         public void setGranted(Boolean granted) {
             this.granted = granted;
+        }
+
+        @Override
+        public String toString() {
+            return userId + ":" + granted;
         }
     }
 }
