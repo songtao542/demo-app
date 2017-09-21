@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aperise.mapper.AclResourceMapper">
-    <select id="selectByResource" resultMap="BaseResultMap">
+    <resultMap id="ResourceResultMap" type="com.aperise.bean.AclResource">
+        <id column="resource_id" jdbcType="BIGINT" property="id" />
+        <result column="resource" jdbcType="VARCHAR" property="resource" />
+        <result column="display" jdbcType="VARCHAR" property="display" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="group_id" jdbcType="BIGINT" property="groupId" />
+        <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    </resultMap>
+
+    <select id="selectByResource" resultMap="ResourceResultMap">
         select
-        <include refid="Base_Column_List" />
-        from acl_resource
+        acl_resource.id as resource_id, resource, display, type, group_id,
+        acl_resource_group.name as group_name
+        from acl_resource left join acl_resource_group on acl_resource.group_id=acl_resource_group.id
         where resource = #{resource,jdbcType=VARCHAR}
     </select>
 
-    <select id="selectByType" resultMap="BaseResultMap">
+    <select id="selectByType" resultMap="ResourceResultMap">
         select
-        <include refid="Base_Column_List" />
-        from acl_resource
+        acl_resource.id as resource_id, resource, display, type, group_id,
+        acl_resource_group.name as group_name
+        from acl_resource left join acl_resource_group on acl_resource.group_id=acl_resource_group.id
         where type = #{type,jdbcType=VARCHAR}
     </select>
+
+
 </mapper>

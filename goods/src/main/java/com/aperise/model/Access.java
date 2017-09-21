@@ -8,8 +8,7 @@ public class Access {
     private Long id;
     private String resource;
     private String display;
-    private List<User> grantedUsers;
-    private List<User> ungrantedUsers;
+    private List<Authority> authorities;
 
     public Long getId() {
         return id;
@@ -35,19 +34,81 @@ public class Access {
         this.resource = resource;
     }
 
-    public List<User> getGrantedUsers() {
-        return grantedUsers;
+    public List<Authority> getAuthorities() {
+        return authorities;
     }
 
-    public void setGrantedUsers(List<User> grantedUsers) {
-        this.grantedUsers = grantedUsers;
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
     }
 
-    public List<User> getUngrantedUsers() {
-        return ungrantedUsers;
+    public static class Authority {
+        private Integer id;
+
+        private String name;
+
+        private String nickname;
+
+        private boolean isGranted;
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getNickname() {
+            return nickname;
+        }
+
+        public void setNickname(String nickname) {
+            this.nickname = nickname;
+        }
+
+        public boolean isGranted() {
+            return isGranted;
+        }
+
+        public boolean getIsGranted() {
+            return isGranted;
+        }
+
+        public void setGranted(boolean granted) {
+            isGranted = granted;
+        }
+
+
+        public static Authority from(User user, boolean isGranted) {
+            Authority authority = new Authority();
+            authority.id = user.getId();
+            authority.name = user.getName();
+            authority.nickname = user.getNickname();
+            authority.isGranted = isGranted;
+            return authority;
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("{");
+            sb.append("id:" + id + ",");
+            sb.append("name:" + name + ",");
+            sb.append("nickname:" + nickname + ",");
+            sb.append("isGranted:" + isGranted);
+            sb.append("}");
+            return sb.toString();
+        }
     }
 
-    public void setUngrantedUsers(List<User> ungrantedUsers) {
-        this.ungrantedUsers = ungrantedUsers;
-    }
 }
+

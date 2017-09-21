@@ -12,9 +12,13 @@
 
     <!-- Custom styles for this template -->
     <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet"/>
+    <link href="../static/css/metisMenu.css" th:href="@{/css/metisMenu.css}" rel="stylesheet"/>
+    <link href="../static/css/sidebar-menu.css" th:href="@{/css/sidebar-menu.css}" rel="stylesheet"/>
 </head>
 
 <body style="height: 100%;">
+
+
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <a class="navbar-brand" href="#">Dashboard</a>
     <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
@@ -46,48 +50,36 @@
 
 
 <div class="row m-0 p-0 " style="height: 100%;overflow:hidden;">
-    <nav class="col-sm-3 col-md-2 bg-dark m-0 p-0">
-        <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Overview <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Reports</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Analytics</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Export</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="#">Nav item</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Nav item again</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">One more nav</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Another nav item</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="#">Nav item again</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">One more nav</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">权限管理</a>
-            </li>
+    <!--<nav class="col-sm-3 col-md-2 bg-dark m-0 p-0">-->
+    <!--<div class="col-sm-3 col-md-2 m-0 p-0">-->
+    <nav class="sidebar-nav col-sm-3 col-md-2 m-0 p-0">
+        <ul class="metismenu" id="menu">
+            <th:block th:each="m:${menus}">
+                <th:block th:if="${m.size() eq 0}">
+                    <li th:id="${m.id}">
+                        <a class="has-arrow" href="#" th:text="${m.name}" onclick="onMenuClicked(this)"><span
+                                class="fa fa-fw fa-github fa-lg"></span></a>
+                    </li>
+                </th:block>
+                <th:block th:if="${m.size() gt 0}">
+                    <li>
+                        <a class="has-arrow" href="#" th:text="${m.name}"><span class="fa fa-fw fa-github fa-lg"></span></a>
+                        <ul aria-expanded="true" class="collapse">
+                            <th:block th:each="sm:${m}">
+                                <li>
+                                    <a href="javascript:void(0);" th:text="${sm.name}" onclick="onMenuClicked(this)"
+                                       th:id="${m.id+'_'+sm.id}" th:data="${sm.url}"><span
+                                            class="fa fa-fw fa-code-fork"></span></a>
+                                </li>
+                            </th:block>
+                        </ul>
+                    </li>
+                </th:block>
+            </th:block>
         </ul>
     </nav>
-
+    <!--</div>-->
     <div class="  col-sm-9 col-md-10 m-0 p-0   " style="height: 100%;">
-        <!--<section class="row text-center placeholders">-->
         <nav class="navbar m-0 p-0 ">
             <ul class="nav nav-gray-pills  nav-tabs " style="width: 100%">
                 <li class="nav-item">
@@ -110,14 +102,12 @@
                 </li>
             </ul>
         </nav>
-        <!--</section>-->
         <div id="frame_container" class="full-m-p-0" style="height: 100%;">
             <!--<div class="full-m-p-0" style="height: 100%;">-->
             <!--<iframe class="i_frame" width="100%" height="100%" allowfullscreen="true" frameborder="0" ></iframe>-->
             <!--</div>-->
         </div>
     </div>
-
 </div>
 
 <!-- Bootstrap core JavaScript
@@ -126,12 +116,21 @@
 <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"-->
 <!--integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"-->
 <!--crossorigin="anonymous"></script>-->
-<script src="../static/js/vendor/jquery-slim.min.js" th:src="@{/js/vendor/jquery-slim.min.js}" ></script>
-<script src="../static/js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}" ></script>
+<script src="../static/js/vendor/jquery-slim.min.js" th:src="@{/js/vendor/jquery-slim.min.js}"></script>
+<script src="../static/js/vendor/jquery-3.2.1.min.js" th:src="@{/js/vendor/jquery-3.2.1.min.js}"></script>
 <script src="../static/js/dashboard.js" th:src="@{/js/dashboard.js}"></script>
 <script src="../static/js/vendor/popper.min.js" th:src="@{/js/vendor/popper.min.js}"></script>
 <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="../static/js/ie10-viewport-bug-workaround.js" th:src="@{/js/ie10-viewport-bug-workaround.js}"></script>
+<script src="../static/js/vendor/metismenu.js" th:src="@{/js/vendor/metismenu.js}"></script>
+
+<script>
+//    $('#menu').metisMenu()
+    $(function () {
+        $('#menu').metisMenu({toggle: false});
+    });
+</script>
+
 </body>
 </html>
