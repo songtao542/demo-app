@@ -29,44 +29,11 @@
         integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
         crossorigin="anonymous"></script>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto ">
-                <li class="nav-item">
-                    <a class="nav-link" href="/signup" th:href="@{/signup}">Sign Up </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/signin" th:href="@{/signin}">Sign In</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-
-<div class="full dark-bg display-flex">
+<div class="full display-flex light-gray-bg">
     <main class="container">
         <div class="row close-full display-flex align-items-center mx-auto">
-            <div class="col-md-6 text-center">
-                <div class="card  card-size mx-auto">
+            <div class="col-md-12 text-center">
+                <div class="card max-width-600 mx-auto" >
                     <div class="card-body align-content-center ">
                         <form action="/merchant/add" th:action="@{/merchant/add}" method="post">
                             <div class="form-group">

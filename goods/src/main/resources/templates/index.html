@@ -41,18 +41,29 @@
                 <a class="nav-link" href="#">Help</a>
             </li>
         </ul>
-        <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"/>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <!--<form class="form-inline mt-2 mt-md-0">-->
+        <!--<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"/>-->
+        <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+        <!--</form>-->
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0);" th:text="${user.name}">user</a>
+            </li>
+            <li class="nav-item">
+                <form th:action="@{/logout}" th:method="@{POST}">
+                    <button type="submit" class="btn btn-success">Logout</button>
+                </form>
+            </li>
+        </ul>
     </div>
 </nav>
 
 
-<div class="row m-0 p-0 " style="height: 100%;overflow:hidden;">
+<div class="m-0 p-0 "
+     style="display:flex;flex-direction:row;flex-wrap: nowrap;align-items:stretch;height: 100%;overflow:hidden;">
     <!--<nav class="col-sm-3 col-md-2 bg-dark m-0 p-0">-->
     <!--<div class="col-sm-3 col-md-2 m-0 p-0">-->
-    <nav class="sidebar-nav col-sm-3 col-md-2 m-0 p-0">
+    <nav class="sidebar-nav m-0 p-0" style="min-width:180px;max-width: 220px">
         <ul class="metismenu" id="menu">
             <th:block th:each="m:${menus}">
                 <th:block th:if="${m.size() eq 0}">
@@ -79,33 +90,21 @@
         </ul>
     </nav>
     <!--</div>-->
-    <div class="  col-sm-9 col-md-10 m-0 p-0   " style="height: 100%;">
+    <!--<div class="col-sm-9 col-md-10 m-0 p-0" style="width:100%;height: 100%;">-->
+    <div class="m-0 p-0" style="float:right;min-width:960px;width:100%;height: 100%;">
         <nav class="navbar m-0 p-0 ">
-            <ul class="nav nav-gray-pills  nav-tabs " style="width: 100%">
+            <ul id="tabs" class="nav nav-gray-pills  nav-tabs " style="width: 100%">
                 <li class="nav-item">
-                    <a class="nav-gray-link active" href="#">Active</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-gray-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-gray-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-gray-link  " href="#">Disabled</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-gray-link  " href="#">Disabled</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-gray-link  " href="#">Disabled</a>
+                    <a id="tab_welcome" class="nav-gray-link active" href="#" onclick="clickTab(this)">
+                        Welcome</a>
                 </li>
             </ul>
         </nav>
         <div id="frame_container" class="full-m-p-0" style="height: 100%;">
-            <!--<div class="full-m-p-0" style="height: 100%;">-->
-            <!--<iframe class="i_frame" width="100%" height="100%" allowfullscreen="true" frameborder="0" ></iframe>-->
-            <!--</div>-->
+            <div id="i_frame_welcome" class="full-m-p-0" style="height: 100%;">
+                <iframe class="i_frame" width="100%" height="100%" allowfullscreen="true" frameborder="0"
+                        th:src="@{/welcome}"></iframe>
+            </div>
         </div>
     </div>
 </div>
@@ -126,7 +125,7 @@
 <script src="../static/js/vendor/metismenu.js" th:src="@{/js/vendor/metismenu.js}"></script>
 
 <script>
-//    $('#menu').metisMenu()
+    //    $('#menu').metisMenu()
     $(function () {
         $('#menu').metisMenu({toggle: false});
     });

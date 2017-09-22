@@ -3,11 +3,16 @@ body, html {
     height: 100%;
 }
 
-.card-size {
+.max-width-400 {
     max-width: 400px;
 }
 
-.card-size-sm {
+.max-width-600 {
+    max-width: 600px;
+}
+
+/*.card-size-sm {*/
+.max-width-300 {
     max-width: 300px;
 }
 
@@ -18,8 +23,6 @@ body, html {
     padding-bottom: 50px;
 }
 
-
-
 .close-full {
     width: 100%;
     height: 80%;
@@ -27,6 +30,10 @@ body, html {
 
 .dark-bg {
     background-color: #2f2f2f;
+}
+
+.light-gray-bg {
+    background-color: #efefef;
 }
 
 .display-flex {

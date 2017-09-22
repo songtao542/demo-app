@@ -2,7 +2,9 @@ package com.aperise.controller;
 
 import com.aperise.bean.AclResource;
 import com.aperise.bean.AclResourceGroup;
+import com.aperise.bean.User;
 import com.aperise.mapper.AclResourceMapper;
+import com.aperise.mapper.UserMapper;
 import com.aperise.model.Menu;
 import com.aperise.model.MenuImpl;
 import com.aperise.model.MenuItem;
@@ -11,6 +13,8 @@ import com.aperise.services.AccessService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +35,11 @@ public class IndexController {
     @Autowired
     AccessService accessService;
 
+    @Autowired
+    UserMapper userMapper;
+
     @RequestMapping({"/", "/index"})
     public String index(Model model) {
-        logger.debug("UserViewController xxxxxxxxxxxxxxxxxxx/index");
         List<AclResource> resources = aclResourceMapper.selectByType("url");
 
         Map<String, Menu> tmp = new HashMap<>();
@@ -58,25 +64,32 @@ public class IndexController {
             }
         }
         tmp.clear();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userMapper.selectByPrimaryKey(Integer.parseInt(auth.getName()));
+        model.addAttribute("user", user);
         model.addAttribute("menus", menus);
         return "index";
     }
 
     @RequestMapping("/login")
     public String login() {
-        logger.debug("UserViewController *********************** /login");
         return "sign_in";
     }
 
     @RequestMapping("/signin")
-    public String signin(HttpServletRequest request) {
-        logger.debug("UserViewController -----------------------/request:" + request.getMethod() + "  -- " + request.getRequestURI() + "  -- " + request.getQueryString());
+    public String signin() {
         return "sign_in";
     }
 
     @RequestMapping("/signup")
     public String signup() {
-        logger.debug("UserViewController /signup");
         return "sign_up";
     }
+
+    @RequestMapping("/welcome")
+    public String welcome() {
+        return "welcome";
+    }
+
+
 }

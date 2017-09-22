@@ -1,9 +1,6 @@
 package com.aperise.controller;
 
-import com.aperise.bean.AclResource;
-import com.aperise.bean.AclResourceCriteria;
-import com.aperise.bean.User;
-import com.aperise.bean.UserCriteria;
+import com.aperise.bean.*;
 import com.aperise.mapper.AclResourceMapper;
 import com.aperise.mapper.UserMapper;
 import com.aperise.model.Access;
@@ -39,19 +36,27 @@ public class UrlAccessViewController {
     @Autowired
     AccessService accessService;
 
+
     @Secured("ROLE_ADMIN")
     @RequestMapping("/view/access/manage")
-    public String accessManage(HttpServletResponse response, Model model) {
-        //response.setHeader("X-Frame-Options", "SAMEORIGIN");
+    public String accessManage(Model model) {
         List<Access> accesses = accessService.getAccesses();
         model.addAttribute("size", accesses.size());
         model.addAttribute("accesses", accesses);
         return "access_manage";
     }
 
-
     @RequestMapping("/view/resource/add")
-    public String addResource() {
+    public String addResource(Model model) {
+        List<AclResourceGroup> groups = aclResourceMapper.selectGroup();
+        model.addAttribute("groups", groups);
+        return "add_resource";
+    }
+
+    @RequestMapping("/view/resource/delete")
+    public String deleteResource(Model model) {
+        List<AclResourceGroup> groups = aclResourceMapper.selectGroup();
+        model.addAttribute("groups", groups);
         return "add_resource";
     }
 }

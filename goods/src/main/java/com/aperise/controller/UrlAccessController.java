@@ -173,7 +173,7 @@ public class UrlAccessController {
     @Transactional
     @Secured("ROLE_ADMIN")
     @RequestMapping("/resource/add")
-    public Result addResource(String resource, String display) {
+    public Result addResource(Long groupId, String resource, String display) {
         if (StringUtils.isEmpty(resource)) {
             return Result.ERROR(Result.Status.PARAMETER_MISSING, "resource can't be empty!");
         }
@@ -191,10 +191,11 @@ public class UrlAccessController {
         res.setResource(resource);
         res.setDisplay(display);
         res.setType("url");
+        if (groupId != null) {
+            res.setGroupId(groupId);
+        }
 
         aclResourceMapper.insertSelective(res);
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         logger.debug("res id == " + res.getId());
 

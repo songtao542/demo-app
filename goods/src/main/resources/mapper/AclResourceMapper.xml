@@ -10,6 +10,11 @@
         <result column="group_name" jdbcType="VARCHAR" property="groupName" />
     </resultMap>
 
+    <resultMap id="ResourceGroupResultMap" type="com.aperise.bean.AclResourceGroup">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+    </resultMap>
+
     <select id="selectByResource" resultMap="ResourceResultMap">
         select
         acl_resource.id as resource_id, resource, display, type, group_id,
@@ -26,5 +31,10 @@
         where type = #{type,jdbcType=VARCHAR}
     </select>
 
+    <select id="selectGroup" resultMap="ResourceGroupResultMap">
+        select
+        id, name
+        from acl_resource_group
+    </select>
 
 </mapper>

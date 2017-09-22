@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.stereotype.Component;
 
 @Component("webSecurityConfigurerAdapter")
@@ -46,12 +47,15 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                         return object;
                     }
                 })
-                .antMatchers("/resources/**", "/css/*", "/js/*", "/img/*", "/", "/signin", "/login", "/signup", "/user/add").permitAll()
+                .antMatchers("/resources/**", "/css/*", "/js/*", "/img/*", "/signin", "/login", "/signup", "/user/add").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/signin")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/signin")
         //.loginProcessingUrl("/login")
         ;
     }
