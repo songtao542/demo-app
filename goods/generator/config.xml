@@ -19,8 +19,8 @@
             <property name="suppressJavaInterface" value="false"/>
         </plugin>
         <!--<plugin type="org.mybatis.generator.plugins.MapperConfigPlugin">-->
-            <!--<property name="targetPackage" value="mapper"/>-->
-            <!--<property name="targetProject" value="../src/main/resources"/>-->
+        <!--<property name="targetPackage" value="mapper"/>-->
+        <!--<property name="targetProject" value="../src/main/resources"/>-->
         <!--</plugin>-->
         <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
             <property name="searchString" value="Example$"/>
@@ -52,8 +52,7 @@
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.aperise.mapper.gen"
-                             targetProject="../src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.aperise.mapper.gen" targetProject="../src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 

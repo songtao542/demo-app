@@ -1,22 +1,25 @@
 #!/usr/bin/env bash
 
 gen=$1
+
 gen_dir=$(pwd)
 bean_dir="${gen_dir}/../src/main/java/com/aperise/bean"
 mapper_dir="${gen_dir}/../src/main/java/com/aperise/mapper/gen"
 xml_dir="${gen_dir}/../src/main/resources/mapper/gen"
 tmp_dir="${gen_dir}/../build/tmp"
 
-if [ ${gen} = "bean" ]; then
+if [ "${gen}" = "bean" -o "${gen}" = "" ]; then
 cd ${bean_dir}
 c=$(ls | wc -l)
 if [ $c -gt 0 ]; then
+
 #去掉.java后缀
-ls | xargs rename 's/.java//'
+#ls | xargs rename 's/.java//'
 #创建tmp目录，并将去掉.java后缀的文件移动到tmp目录中
 mkdir "${bean_dir}/tmp/"
 #ls | xargs -I {} mv {} ./tmp/
-find ./ -maxdepth 1 -type f -exec mv {} ./tmp/ \;
+#find ./ -maxdepth 1 -type f -exec mv {} ./tmp/ \;
+grep -o -P '(?<=domainObjectName=\").*(?=\">)' ${gen_dir}/config.xml | xargs -I {} sh -c "mv {}.java ./tmp/{};mv {}Criteria.java ./tmp/{}Criteria"
 fi
 fi
 
@@ -36,28 +39,36 @@ fi
 rm -rf ${xml_dir}/*
 rm -rf ${mapper_dir}/*
 
-if [ ! -d ${tmp_dir} ]; then
+if [ ! -d "${tmp_dir}" ]; then
 mkdir ${tmp_dir}
 fi
 
 #进入generator所在目录执行
 cd ${gen_dir}
-if [ ${gen} = "bean" ]; then
-java -jar mybatis-generator-core-1.3.5.jar -configfile config_bean.xml -overwrite
-elif [ ${gen} = "mapper" ]; then
-java -jar mybatis-generator-core-1.3.5.jar -configfile config_mapper.xml -overwrite
+if [ "${gen}" = "bean" ]; then
+sed -i "s:sqlMapGenerator target.*:sqlMapGenerator targetPackage=\"mapper.gen\" targetProject=\"../build/tmp\">:g" config.xml
+sed -i "s:javaClientGenerator type.*:javaClientGenerator type=\"XMLMAPPER\" targetPackage=\"com.aperise.mapper.gen\" targetProject=\"../build/tmp\">:g" config.xml
+sed -i "s:javaModelGenerator target.*:javaModelGenerator targetPackage=\"com.aperise.bean\" targetProject=\"../src/main/java\">:g" config.xml
+elif [ "${gen}" = "mapper" ]; then
+sed -i "s:sqlMapGenerator target.*:sqlMapGenerator targetPackage=\"mapper.gen\" targetProject=\"../src/main/resources\">:g" config.xml
+sed -i "s:javaClientGenerator type.*:javaClientGenerator type=\"XMLMAPPER\" targetPackage=\"com.aperise.mapper.gen\" targetProject=\"../src/main/java\">:g" config.xml
+sed -i "s:javaModelGenerator target.*:javaModelGenerator targetPackage=\"com.aperise.bean\" targetProject=\"../build/tmp\">:g" config.xml
 else
-java -jar mybatis-generator-core-1.3.5.jar -configfile config.xml -overwrite
+sed -i "s:sqlMapGenerator target.*:sqlMapGenerator targetPackage=\"mapper.gen\" targetProject=\"../src/main/resources\">:g" config.xml
+sed -i "s:javaClientGenerator type.*:javaClientGenerator type=\"XMLMAPPER\" targetPackage=\"com.aperise.mapper.gen\" targetProject=\"../src/main/java\">:g" config.xml
+sed -i "s:javaModelGenerator target.*:javaModelGenerator targetPackage=\"com.aperise.bean\" targetProject=\"../src/main/java\">:g" config.xml
 fi
+java -jar mybatis-generator-core-1.3.5.jar -configfile config.xml -overwrite
 
 if [ $(uname) == "Darwin" ]; then
 
-if [ ${gen} = "bean" -o ${gen} = "" ]; then
+if [ "${gen}" = "bean" -o "${gen}" = "" ]; then
 #进入bean目录
 cd ${bean_dir}
 if [ -d "tmp" ]; then
 #将新生成的文件重命名
-ls | xargs rename 's/.java/.new/'
+#ls | xargs rename 's/.java/.new/'
+grep -o -P '(?<=domainObjectName=\").*(?=\">)' ${gen_dir}/config.xml | xargs -I {} sh -c "mv {}.java {}.new;mv {}Criteria.java {}Criteria.new"
 #进入tmp目录遍历文件
 cd "${bean_dir}/tmp"
 #合并新生成的文件和旧文件
@@ -81,12 +92,13 @@ fi
 
 else
 
-if [ ${gen} = "bean" -o ${gen} = "" ]; then
+if [ "${gen}" = "bean" -o "${gen}" = "" ]; then
 #进入bean目录
 cd ${bean_dir}
 if [ -d "tmp" ]; then
 #将新生成的文件重命名
-ls | xargs rename 's/.java/.new/'
+#ls | xargs rename 's/.java/.new/'
+grep -o -P '(?<=domainObjectName=\").*(?=\">)' ${gen_dir}/config.xml | xargs -I {} sh -c "mv {}.java {}.new;mv {}Criteria.java {}Criteria.new"
 #进入tmp目录遍历文件
 cd "${bean_dir}/tmp"
 #合并新生成的文件和旧文件
@@ -124,14 +136,13 @@ fi
 ##find ./ -maxdepth 1 -type f -exec sed -i '/^#.*/d' {} \;
 #fi
 
-if [ ${gen} = "mapper" -o ${gen} = "" ]; then
+if [ "${gen}" = "mapper" -o "${gen}" = "" ]; then
 cd ${xml_dir} && ls | xargs sed -i 's/com.aperise.mapper.gen/com.aperise.mapper/g' &&  ls | xargs sed -i 's/ByExample/ByCriteria/g' && ls | xargs -I {} mv {} Gen{}
 cd ${mapper_dir} && ls | xargs -I {} sed -i 's/public interface /public interface Gen/g' {} &&  ls | xargs sed -i 's/ByExample/ByCriteria/g' && ls | xargs -I {} mv {} Gen{}
 fi
 
-if [ ${gen} = "bean" -o ${gen} = "mapper" ]; then
-rm -rf ${tmp_dir}
+if [ "${gen}" = "bean" -o "${gen}" = "mapper" ]; then
+rm -rf ${tmp_dir}/*
 fi
 
 fi
-
