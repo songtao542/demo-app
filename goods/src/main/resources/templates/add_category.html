@@ -35,14 +35,14 @@
             <div class="col-md-12 text-center">
                 <div class="card  max-width-600 mx-auto">
                     <div class="card-body align-content-center ">
-                        <form action="/product/category/add" th:action="@{/product/category/add}" method="post">
+                        <form id="add_category" action="/product/category/add" th:action="@{/product/category/add}" method="post">
                             <div class="form-group">
-                                <label class="float-left" for="inputName">Name</label>
+                                <label class="float-left" for="inputName">分类名称</label>
                                 <input type="text" name="name" class="form-control" id="inputName"
                                        placeholder="Name"/>
                             </div>
                             <div class="form-group">
-                                <label class="float-left" for="displayName">Display Name</label>
+                                <label class="float-left" for="displayName">分类展示名</label>
                                 <input type="text" name="displayName" class="form-control" id="displayName"
                                        placeholder="Display Name"/>
                             </div>
@@ -54,6 +54,19 @@
         </div>
     </main>
 </div>
+<script src="../static/js/vendor/jquery-3.2.1.min.js" th:src="@{/js/vendor/jquery-3.2.1.min.js}" ></script>
+<script src="../static/js/vendor/jquery.form.min.js" th:src="@{/js/vendor/jquery.form.min.js}" ></script>
 
+<script>
+    // wait for the DOM to be loaded
+    $(document).ready(function() {
+        // bind 'myForm' and provide a simple callback function
+        $('#add_category').ajaxForm(function(e) {
+
+            alert("Thank you for your comment!");
+            alert("e:"+JSON.stringify(e));
+        });
+    });
+</script>
 </body>
 </html>

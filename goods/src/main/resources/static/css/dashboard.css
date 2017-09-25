@@ -60,11 +60,6 @@ h1 {
     margin: 0;
 }
 
-.table-borderless td,
-.table-borderless th {
-    border: 0;
-}
-
 .nav-gray-pills .nav-gray-link.active,
 .show > .nav-gray-pills .nav-gray-link {
     background-color: #007bff;

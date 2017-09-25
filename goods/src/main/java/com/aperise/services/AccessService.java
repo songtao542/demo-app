@@ -72,8 +72,6 @@ public class AccessService {
             List<Access.Authority> authorities = new ArrayList<>();
 
             for (User user : users) {
-                if (logger.isDebugEnabled())
-                    logger.debug("user:" + user.getName());
                 try {
                     boolean isGranted = acl.isGranted(permissions, Arrays.asList(new PrincipalSid(String.valueOf(user.getId()))), false);
                     if (logger.isDebugEnabled())
