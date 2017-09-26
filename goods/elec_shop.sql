@@ -69,7 +69,7 @@ CREATE TABLE `acl_entry` (
   KEY `fk_acl_entry_acl` (`sid`),
   CONSTRAINT `fk_acl_entry_acl` FOREIGN KEY (`sid`) REFERENCES `acl_sid` (`id`),
   CONSTRAINT `fk_acl_entry_object` FOREIGN KEY (`acl_object_identity`) REFERENCES `acl_object_identity` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,7 +78,7 @@ CREATE TABLE `acl_entry` (
 
 LOCK TABLES `acl_entry` WRITE;
 /*!40000 ALTER TABLE `acl_entry` DISABLE KEYS */;
-INSERT INTO `acl_entry` VALUES (7,8,0,1,16,1,0,0),(10,7,0,8,1,1,0,0),(11,7,1,7,1,1,0,0),(12,7,2,1,16,1,0,0);
+INSERT INTO `acl_entry` VALUES (10,7,0,8,1,1,0,0),(11,7,1,7,1,1,0,0),(12,7,2,1,16,1,0,0),(13,8,0,8,1,1,0,0),(14,8,1,1,16,1,0,0),(15,9,0,1,16,1,0,0),(16,10,0,1,16,1,0,0),(17,11,0,1,16,1,0,0),(18,12,0,1,16,1,0,0),(19,13,0,1,16,1,0,0),(20,14,0,1,16,1,0,0),(21,15,0,1,16,1,0,0),(22,16,0,1,16,1,0,0);
 /*!40000 ALTER TABLE `acl_entry` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +103,7 @@ CREATE TABLE `acl_object_identity` (
   CONSTRAINT `fk_acl_object_identity_class` FOREIGN KEY (`object_id_class`) REFERENCES `acl_class` (`id`),
   CONSTRAINT `fk_acl_object_identity_owner` FOREIGN KEY (`owner_sid`) REFERENCES `acl_sid` (`id`),
   CONSTRAINT `fk_acl_object_identity_parent` FOREIGN KEY (`parent_object`) REFERENCES `acl_object_identity` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,7 +112,7 @@ CREATE TABLE `acl_object_identity` (
 
 LOCK TABLES `acl_object_identity` WRITE;
 /*!40000 ALTER TABLE `acl_object_identity` DISABLE KEYS */;
-INSERT INTO `acl_object_identity` VALUES (7,6,9,NULL,1,1),(8,6,10,NULL,1,1);
+INSERT INTO `acl_object_identity` VALUES (7,6,9,NULL,1,1),(8,6,10,NULL,1,1),(9,6,11,NULL,1,1),(10,6,12,NULL,1,1),(11,6,13,NULL,1,1),(12,6,14,NULL,1,1),(13,6,15,NULL,1,1),(14,6,16,NULL,1,1),(15,6,17,NULL,1,1),(16,6,18,NULL,1,1);
 /*!40000 ALTER TABLE `acl_object_identity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +132,7 @@ CREATE TABLE `acl_resource` (
   PRIMARY KEY (`id`),
   KEY `fk_acl_resource_group` (`group_id`),
   CONSTRAINT `fk_acl_resource_group` FOREIGN KEY (`group_id`) REFERENCES `acl_resource_group` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +141,7 @@ CREATE TABLE `acl_resource` (
 
 LOCK TABLES `acl_resource` WRITE;
 /*!40000 ALTER TABLE `acl_resource` DISABLE KEYS */;
-INSERT INTO `acl_resource` VALUES (9,'/user/info','查看用户信息','url',NULL),(10,'/user/list','查看用户列表','url',NULL);
+INSERT INTO `acl_resource` VALUES (9,'/user/info','查看用户信息','url',1),(10,'/user/list','查看用户列表','url',1),(11,'/view/access/manage','权限管理','url',2),(13,'/view/resource/add','添加资源','url',3),(14,'/view/product/category/add','添加商品类别','url',5),(15,'/view/product/add','添加商品','url',5),(16,'/view/product/delete','删除商品','url',5),(17,'/view/product/query','查询商品','url',5),(18,'/view/merchant/add','添加商户','url',4);
 /*!40000 ALTER TABLE `acl_resource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,9 +154,9 @@ DROP TABLE IF EXISTS `acl_resource_group`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `acl_resource_group` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `display` varchar(100) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,6 +165,7 @@ CREATE TABLE `acl_resource_group` (
 
 LOCK TABLES `acl_resource_group` WRITE;
 /*!40000 ALTER TABLE `acl_resource_group` DISABLE KEYS */;
+INSERT INTO `acl_resource_group` VALUES (1,'用户管理'),(2,'权限管理'),(3,'资源管理'),(4,'商户管理'),(5,'商品管理');
 /*!40000 ALTER TABLE `acl_resource_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,7 +210,7 @@ CREATE TABLE `category` (
   `gmt_modify` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_deleted` char(1) DEFAULT 'n' COMMENT '是否删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,6 +219,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'食品','食品','2017-09-22 17:12:49','2017-09-22 17:12:49','n'),(2,'酒类','酒类','2017-09-22 17:15:39','2017-09-22 17:15:39','n'),(3,'饮料','饮料','2017-09-22 17:16:50','2017-09-22 17:16:50','n');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +238,7 @@ CREATE TABLE `merchant` (
   `gmt_modify` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_deleted` char(1) DEFAULT 'n' COMMENT '是否删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,6 +247,7 @@ CREATE TABLE `merchant` (
 
 LOCK TABLES `merchant` WRITE;
 /*!40000 ALTER TABLE `merchant` DISABLE KEYS */;
+INSERT INTO `merchant` VALUES (1,'湖北土特产销售','湖北土特产批发店','2017-09-22 17:10:55','2017-09-22 17:10:55','n'),(2,'湖南土特产销售','湖南土特产批发店','2017-09-22 17:13:41','2017-09-22 17:13:41','n');
 /*!40000 ALTER TABLE `merchant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -534,4 +537,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-20 15:48:04
+-- Dump completed on 2017-09-26 19:56:35
