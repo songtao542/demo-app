@@ -22,6 +22,7 @@ import org.springframework.security.acls.jdbc.BasicLookupStrategy;
 import org.springframework.security.acls.jdbc.JdbcMutableAclService;
 import org.springframework.security.acls.jdbc.LookupStrategy;
 import org.springframework.security.acls.model.*;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -147,5 +148,19 @@ public class MyConfiguration {
     public AccessDecisionManager getAccessDecisionManager(List<AccessDecisionVoter<?>> aclAccessDecisionVoters) {
         return new MyAccessDecisionManager(aclAccessDecisionVoters);
     }
+
+    @Bean("keySecretAuthenticationEntryPoint")
+    public KeySecretAuthenticationEntryPoint getBasicAuthenticationEntryPoint() {
+        KeySecretAuthenticationEntryPoint entryPoint = new KeySecretAuthenticationEntryPoint();
+        entryPoint.setRealmName("goods");
+        return entryPoint;
+    }
+
+    @Bean
+    public AuthenticationProvider getAuthenticationProvider(){
+        KeySecretAuthenticationProvider authenticationProvider = new KeySecretAuthenticationProvider();
+        return authenticationProvider;
+    }
+
 
 }

@@ -5,14 +5,18 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.intercept.aopalliance.MethodSecurityInterceptor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
+import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
 @Component("webSecurityConfigurerAdapter")
@@ -26,17 +30,20 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
     @Autowired
     AccessDecisionManager accessDecisionManager;
 
+    @Autowired
+    UserDetailsService userDetailsService;
+
+    @Autowired
+    AuthenticationProvider authenticationProvider;
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //super.configure(http);
-//        http.csrf().disable();
         http.headers().frameOptions().sameOrigin();
         http.authorizeRequests()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O object) {
-                        //object.setAccessDecisionManager(accessDecisionManager);
-//                        object.setSecurityMetadataSource(securityMetadataSource);
                         return object;
                     }
                 })
@@ -48,23 +55,29 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                     }
                 })
                 .antMatchers("/resources/**", "/css/*", "/js/*", "/img/*", "/signin", "/login", "/signup", "/user/add").permitAll()
-                .anyRequest()
-                .authenticated()
+                .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/signin")
+                .formLogin().loginPage("/signin")
                 .and()
-                .logout()
-                .logoutSuccessUrl("/signin")
-        //.loginProcessingUrl("/login")
+                .logout().logoutSuccessUrl("/signin")
+                .and()
+                .httpBasic()
+                .and()
+                .apply(new HttpKeySecretConfigurer<>())
+                .and()
+                .authenticationProvider(authenticationProvider)
+                .userDetailsService(userDetailsService)
         ;
+
     }
 
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //super.configure(auth);
-        auth.userDetailsService((MyUserDetailsService) ApplicationContextHolder.getBean("userDetailsService"));
+        super.configure(auth);
+//        auth.userDetailsService(userDetailsService);
+//        auth.authenticationProvider(authenticationProvider);
+//        auth.apply((SecurityConfigurerAdapter) new HttpKeySecretConfigurer<HttpSecurity>());
     }
 
 
