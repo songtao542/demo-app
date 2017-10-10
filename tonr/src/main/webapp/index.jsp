@@ -63,7 +63,11 @@
 		</authz:authorize>
 		<authz:authorize ifAllGranted="ROLE_USER">
 			<p>
-				<a href="<c:url value="/sparklr/photos"/>">View my Sparklr photos</a>
+				<a href="<c:url value="/sparklr/photos"/>">/sparklr/photos</a>
+			</p>
+
+			<p>
+				<a href="<c:url value="/sparklr/redirect"/>">/sparklr/redirect</a>
 			</p>
 
 			<p>
