@@ -85,7 +85,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 
     @Bean
-    public SparklrController sparklrController(@Qualifier("sparklrService")SparklrService sparklrService) {
+    public SparklrController sparklrController(@Qualifier("sparklrService") SparklrService sparklrService) {
         SparklrController controller = new SparklrController();
         controller.setSparklrService(sparklrService);
         return controller;
@@ -99,7 +99,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public FacebookController facebookController(@Qualifier("facebookRestTemplate")RestOperations facebookRestTemplate) {
+    public FacebookController facebookController(@Qualifier("facebookRestTemplate") RestOperations facebookRestTemplate) {
         FacebookController controller = new FacebookController();
         controller.setFacebookRestTemplate(facebookRestTemplate);
         return controller;
@@ -107,12 +107,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public SparklrServiceImpl sparklrService(@Value("${sparklrPhotoListURL}") String sparklrPhotoListURL,
+                                             @Value("${sparklrPhotoListURL1}") String sparklrPhotoListURL1,
                                              @Value("${sparklrPhotoURLPattern}") String sparklrPhotoURLPattern,
                                              @Value("${sparklrTrustedMessageURL}") String sparklrTrustedMessageURL,
                                              @Qualifier("sparklrRestTemplate") RestOperations sparklrRestTemplate,
                                              @Qualifier("trustedClientRestTemplate") RestOperations trustedClientRestTemplate) {
         SparklrServiceImpl sparklrService = new SparklrServiceImpl();
         sparklrService.setSparklrPhotoListURL(sparklrPhotoListURL);
+        sparklrService.setSparklrPhotoListURL1(sparklrPhotoListURL1);
         sparklrService.setSparklrPhotoURLPattern(sparklrPhotoURLPattern);
         sparklrService.setSparklrTrustedMessageURL(sparklrTrustedMessageURL);
         sparklrService.setSparklrRestTemplate(sparklrRestTemplate);
@@ -122,17 +124,17 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public SparklrServiceImpl sparklrRedirectService(@Value("${sparklrPhotoListURL}") String sparklrPhotoListURL,
+                                                     @Value("${sparklrPhotoListURL1}") String sparklrPhotoListURL1,
                                                      @Value("${sparklrPhotoURLPattern}") String sparklrPhotoURLPattern,
                                                      @Value("${sparklrTrustedMessageURL}") String sparklrTrustedMessageURL,
                                                      @Qualifier("sparklrRedirectRestTemplate") RestOperations sparklrRestTemplate,
                                                      @Qualifier("trustedClientRestTemplate") RestOperations trustedClientRestTemplate) {
-        SparklrServiceImpl sparklrService = new SparklrServiceImpl();
-        sparklrService.setSparklrPhotoListURL(sparklrPhotoListURL);
-        sparklrService.setSparklrPhotoURLPattern(sparklrPhotoURLPattern);
-        sparklrService.setSparklrTrustedMessageURL(sparklrTrustedMessageURL);
-        sparklrService.setSparklrRestTemplate(sparklrRestTemplate);
-        sparklrService.setTrustedClientRestTemplate(trustedClientRestTemplate);
-        return sparklrService;
+        return sparklrService(sparklrPhotoListURL,
+                sparklrPhotoListURL1,
+                sparklrPhotoURLPattern,
+                sparklrTrustedMessageURL,
+                sparklrRestTemplate,
+                trustedClientRestTemplate);
     }
 
     @Bean

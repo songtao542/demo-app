@@ -1,12 +1,5 @@
 package org.springframework.security.oauth.examples.sparklr.mvc;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.Principal;
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpHeaders;
@@ -15,14 +8,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth.examples.sparklr.PhotoInfo;
 import org.springframework.security.oauth.examples.sparklr.PhotoService;
-import org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoint;
-import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.Principal;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * @author Ryan Heaton
@@ -71,7 +68,7 @@ public class PhotoController {
         headers.set("Content-Type", "application/javascript");
         return new ResponseEntity<String>(out.toString(), headers, HttpStatus.OK);
     }
-//    TokenEndpoint tokenEndpoint;AuthorizationEndpoint a;
+
     @RequestMapping(value = "/photos", params = "format=xml")
     public ResponseEntity<String> getXmlPhotos(HttpServletRequest request, Principal principal) {
         logger.debug("HttpServletRequest=" + request);

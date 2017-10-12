@@ -14,6 +14,7 @@ public interface SparklrService {
 	 * @return The list of photo ids for the current user.
 	 */
 	List<String> getSparklrPhotoIds() throws SparklrException;
+	List<String> getSparklrPhotoIds1() throws SparklrException;
 
 	/**
 	 * Loads the Sparklr photo for the current user.

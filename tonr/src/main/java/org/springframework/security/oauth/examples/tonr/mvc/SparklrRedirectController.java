@@ -39,6 +39,14 @@ public class SparklrRedirectController {
 		return "sparklr";
 	}
 
+	@RequestMapping("/sparklr/redirect1")
+	public String photos1(Model model) throws Exception {
+		model.addAttribute("photoIds", sparklrService.getSparklrPhotoIds1());
+		model.addAttribute("path", "redirect");
+		return "sparklr";
+	}
+
+
 	@RequestMapping("/sparklr/trigger")
 	public String trigger(Model model) throws Exception {
 		return photos(model);

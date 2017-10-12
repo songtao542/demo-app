@@ -65,9 +65,15 @@
 			<p>
 				<a href="<c:url value="/sparklr/photos"/>">/sparklr/photos</a>
 			</p>
+			<p>
+				<a href="<c:url value="/sparklr/photos1"/>">/sparklr/photos1</a>
+			</p>
 
 			<p>
 				<a href="<c:url value="/sparklr/redirect"/>">/sparklr/redirect</a>
+			</p>
+			<p>
+				<a href="<c:url value="/sparklr/redirect1"/>">/sparklr/redirect1</a>
 			</p>
 
 			<p>
