@@ -11,7 +11,7 @@ repositories {
 }
 
 war {
-    archiveName 'aparklr-res.war'
+    archiveName 'sparklr-res.war'
     destinationDir file("$projectDir/docker")
 }
 

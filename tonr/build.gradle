@@ -10,6 +10,11 @@ repositories {
     mavenCentral()
 }
 
+war {
+    archiveName 'tonr.war'
+    destinationDir file("$projectDir/docker")
+}
+
 dependencies {
     compile fileTree(dir: "libs", includes: ["*.jar"])
     testCompile("junit:junit:4.11")
