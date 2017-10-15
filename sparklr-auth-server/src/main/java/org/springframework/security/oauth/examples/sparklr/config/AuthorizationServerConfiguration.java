@@ -188,7 +188,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://192.168.1.109:3306/oauth2");
-        dataSource.setUsername("root");
+        dataSource.setUsername("user_rw");
         dataSource.setPassword("root123456");
         return dataSource;
     }
